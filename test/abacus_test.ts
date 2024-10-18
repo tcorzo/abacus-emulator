@@ -1,7 +1,7 @@
 import { expect } from "jsr:@std/expect";
-import AbacusEmulator from "../../src/abacus/abacus.ts";
-import { Program, Register } from "../../src/abacus/program.ts";
-import { OperationTypes } from "../../src/abacus/operation_type.ts";
+import AbacusEmulator from "@/abacus/abacus.ts";
+import { Program, Register } from "@/abacus/program.ts";
+import { OperationTypes } from "@/abacus/operation_type.ts";
 
 Deno.test("AbacusEmulator should throw error if no program is loaded", () => {
     const emulator = new AbacusEmulator();

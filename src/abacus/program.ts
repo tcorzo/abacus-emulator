@@ -1,4 +1,4 @@
-import { OperationType } from "./operation_type.ts";
+import { OperationType } from "@/abacus/operation_type.ts";
 
 export interface Operation {
     code: string; // 1 byte for the operation code

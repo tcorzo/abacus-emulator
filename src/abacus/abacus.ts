@@ -1,5 +1,5 @@
-import { Program, Register } from './program.ts';
-import { OperationType } from './operation_type.ts';
+import { Program, Register } from '@/abacus/program.ts';
+import { OperationType } from '@/abacus/operation_type.ts';
 
 class AbacusEmulator {
     private program: Program | null = null;
