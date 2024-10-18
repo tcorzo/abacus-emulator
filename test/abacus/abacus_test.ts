@@ -1,4 +1,5 @@
-import { assertEquals, assertThrows } from "jsr:@std/assert";
+import { expect } from "jsr:@std/expect";
+
 import AbacusEmulator from "../../src/abacus/abacus.ts";
 import { Program, Register } from "../../src/abacus/program.ts";
 import { Execution } from "../../src/abacus/execution.ts";
@@ -6,9 +7,9 @@ import { OperationTypes } from "../../src/constants/operation_type.ts";
 
 Deno.test("AbacusEmulator should throw error if no program is loaded", () => {
     const emulator = new AbacusEmulator();
-    assertThrows(() => {
+    expect(() => {
         emulator.run();
-    }, Error, "No program loaded");
+    }).toThrow('No program loaded');
 });
 
 Deno.test("AbacusEmulator should load a program and run without errors", () => {
@@ -27,7 +28,7 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
                 operation_type: {
                     name: 'NOP',
                     description: 'No operation',
-                    execute: (execution: Execution) => {
+                    execute: (_: Execution) => {
                         // No operation
                     }
                 }
@@ -43,11 +44,12 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
     emulator.loadProgram(program);
 
     // Ensure the program is loaded correctly
-    assertEquals(emulator['program'], program);
+    expect(emulator['program']).toEqual(program);
 
     // Run the emulator
     emulator.run();
 
     // Ensure the execution finished correctly
-    assertEquals(emulator['execution'].current_address, '000');
+    expect(emulator['execution'].current_address).toEqual('000');
 });
+
