@@ -1,6 +1,6 @@
 import { Program, Register } from './program.ts';
 import { Execution } from './execution.ts';
-import { OperationType } from '../constants/operation_type.ts';
+import { OperationType } from './operation_type.ts';
 
 class AbacusEmulator {
     private program: Program | null = null;
@@ -9,18 +9,18 @@ class AbacusEmulator {
 
     loadProgram(program: Program) {
         this.program = program;
-        this.execution = {
-            accumulator: '0000',
-            current_address: program.registers[0].address,
-            registers: new Map<string, Register>()
-        };
+        this.execution = new Execution(
+            '0000',
+            program.registers[0].address,
+            new Map<string, Register>()
+        );
 
         for (const register of program.registers) {
-            this.execution.registers.set(register.address, register);
+            this.execution.setRegister(register.address, register);
         }
 
         for (const auxRegister of program.aux_registers) {
-            this.execution.registers.set(auxRegister.address, auxRegister);
+            this.execution.setRegister(auxRegister.address, auxRegister);
         }
 
         for (const operation of program.operations) {
@@ -34,15 +34,11 @@ class AbacusEmulator {
         }
 
         while (this.execution.current_address !== '000') {
-            const register = this.execution.registers.get(this.execution.current_address);
-            if (register === undefined) {
-                throw new Error(`Register at address ${this.execution.current_address} is undefined`);
-            }
+            const register = this.execution.getRegister(this.execution.current_address);
 
             const operation = this.operations.get(register.opcode());
-            if (operation === undefined) {
+            if (operation === undefined)
                 throw new Error(`Operation with code ${register.opcode()} is undefined`);
-            }
 
             const old_address = this.execution.current_address;
 

@@ -1,4 +1,4 @@
-import { Execution } from "../abacus/execution.ts";
+import { Execution } from "./execution.ts";
 
 export interface OperationType {
     name: string;
@@ -6,27 +6,31 @@ export interface OperationType {
     execute: (execution: Execution) => void;
 }
 
-export const LOAD: OperationType = {
-    name: 'Carga',
-    description: 'Carga inmediata',
+export const INMEDIATE_LOAD: OperationType = {
+    name: 'Carga Inmediata',
+    description: 'Carga el valor del registro actual en el acumulador',
     execute: (execution: Execution) => {
-        const register = execution.registers.get(execution.current_address);
-        if (register === undefined) {
-            throw new Error(`Register at address ${execution.current_address} is undefined`);
-        }
-
-        execution.accumulator = register.value;
+        const register = execution.getRegister(execution.current_address);
+        execution.accumulator = register.operand();
     }
 };
+
+export const LOAD: OperationType = {
+    name: 'Carga',
+    description: 'Carga el valor del registro con dirección = valor del registro actual en el acumulador',
+    execute: (execution: Execution) => {
+        const currentRegister = execution.getRegister(execution.current_address);
+        const register = execution.getRegister(currentRegister.operand());
+        execution.accumulator = register.operand(); // TODO check if this is correct
+    }
+};
+
 export const STORE: OperationType = {
     name: 'Almacena',
     description: 'Almacena AC en',
     execute: (execution: Execution) => {
-        const register = execution.registers.get(execution.current_address);
-        if (register === undefined) {
-            throw new Error(`Register at address ${execution.current_address} is undefined`);
-        }
-
+        const currentRegister = execution.getRegister(execution.current_address);
+        const register = execution.getRegister(currentRegister.operand());
         register.value = execution.accumulator;
     }
 };
@@ -34,11 +38,7 @@ export const ADD: OperationType = {
     name: 'Suma',
     description: 'Suma AC con',
     execute: (execution: Execution) => {
-        const register = execution.registers.get(execution.current_address);
-        if (register === undefined) {
-            throw new Error(`Register at address ${execution.current_address} is undefined`);
-        }
-
+        const register = execution.getRegister(execution.current_address);
         execution.accumulator = (
             parseInt(execution.accumulator, 16) + parseInt(register.operand(), 16)
         ).toString(16).padStart(4, '0');
@@ -49,7 +49,7 @@ export const SUBTRACT: OperationType = {
     description: 'Resta AC con',
 
     execute: (execution: Execution) => {
-        const register = execution.registers.get(execution.current_address);
+        const register = execution.getRegister(execution.current_address);
         if (register === undefined) {
             throw new Error(`Register at address ${execution.current_address} is undefined`);
         }
@@ -64,8 +64,8 @@ export const NOT: OperationType = {
     description: 'NOT AC',
     execute: (execution: Execution) => {
         execution.accumulator = (
-            ~parseInt(execution.accumulator, 16)
-        ).toString(16).padStart(4, '0');
+            (~parseInt(execution.accumulator, 16) & 0xFFFF)
+        ).toString(16).padStart(4, '0').toUpperCase();
     }
 };
 export const BIF_IF_EQ: OperationType = {
@@ -73,11 +73,7 @@ export const BIF_IF_EQ: OperationType = {
     description: 'Bifurca si (AC == 0)',
     execute: (execution: Execution) => {
         if (execution.accumulator === '0000') {
-            const register = execution.registers.get(execution.current_address);
-            if (register === undefined) {
-                throw new Error(`Register at address ${execution.current_address} is undefined`);
-            }
-
+            const register = execution.getRegister(execution.current_address);
             execution.current_address = register.operand();
         }
     }
@@ -87,7 +83,7 @@ export const BIF_IF_L: OperationType = {
     description: 'Bifurca si (AC < 0)',
     execute: (execution: Execution) => {
         if (parseInt(execution.accumulator, 16) < 0) {
-            const register = execution.registers.get(execution.current_address);
+            const register = execution.getRegister(execution.current_address);
             if (register === undefined) {
                 throw new Error(`Register at address ${execution.current_address} is undefined`);
             }
@@ -101,7 +97,7 @@ export const BIF_IF_G: OperationType = {
     description: 'Bifurca si (AC > 0)',
     execute: (execution: Execution) => {
         if (parseInt(execution.accumulator, 16) > 0) {
-            const register = execution.registers.get(execution.current_address);
+            const register = execution.getRegister(execution.current_address);
             if (register === undefined) {
                 throw new Error(`Register at address ${execution.current_address} is undefined`);
             }
@@ -119,6 +115,7 @@ const END: OperationType = {
 };
 
 export const OperationTypes = {
+    INMEDIATE_LOAD,
     LOAD,
     STORE,
     ADD,
