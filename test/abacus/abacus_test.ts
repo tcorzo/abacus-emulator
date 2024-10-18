@@ -1,7 +1,6 @@
 import { expect } from "jsr:@std/expect";
 import AbacusEmulator from "../../src/abacus/abacus.ts";
 import { Program, Register } from "../../src/abacus/program.ts";
-import { Execution } from "../../src/abacus/execution.ts";
 import { OperationTypes } from "../../src/abacus/operation_type.ts";
 
 Deno.test("AbacusEmulator should throw error if no program is loaded", () => {
@@ -27,7 +26,7 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
                 operation_type: {
                     name: 'NOP',
                     description: 'No operation',
-                    execute: (_: Execution) => {
+                    execute: function (this: AbacusEmulator) {
                         // No operation
                     }
                 }
@@ -49,7 +48,7 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
     emulator.run();
 
     // Ensure the execution finished correctly
-    expect(emulator['execution'].current_address).toEqual('000');
+    expect(emulator.current_address).toEqual('000');
 });
 
 Deno.test("AbacusEmulator should load a value from aux register, negate it, and store it in register 201 using predefined operation types", () => {
@@ -93,5 +92,5 @@ Deno.test("AbacusEmulator should load a value from aux register, negate it, and 
     emulator.run();
 
     // Ensure the value is negated and stored correctly
-    expect(emulator['execution'].getRegister('201').value).toEqual('FEDC');
+    expect(emulator.getRegister('201').value).toEqual('FEDC');
 });
