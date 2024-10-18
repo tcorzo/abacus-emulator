@@ -1,8 +1,10 @@
-import { Program, Register } from './program';
-import { Execution } from './execution';
+import { Program, Register } from './program.ts';
+import { Execution } from './execution.ts';
+import { OperationType } from '../constants/operation_type.ts';
 
 class AbacusEmulator {
     private program: Program | null = null;
+    private operations: Map<string, OperationType> = new Map();
     private execution!: Execution;
 
     loadProgram(program: Program) {
@@ -20,6 +22,10 @@ class AbacusEmulator {
         for (const auxRegister of program.aux_registers) {
             this.execution.registers.set(auxRegister.address, auxRegister);
         }
+
+        for (const operation of program.operations) {
+            this.operations.set(operation.code, operation.operation_type);
+        }
     }
 
     run() {
@@ -33,14 +39,14 @@ class AbacusEmulator {
                 throw new Error(`Register at address ${this.execution.current_address} is undefined`);
             }
 
-            const operation = this.program.operations.find(operation => operation.code === register.opcode());
+            const operation = this.operations.get(register.opcode());
             if (operation === undefined) {
                 throw new Error(`Operation with code ${register.opcode()} is undefined`);
             }
 
             const old_address = this.execution.current_address;
 
-            operation.operation_type.execute(this.execution);
+            operation.execute(this.execution);
 
             if (old_address === this.execution.current_address) {
                 this.execution.current_address = (

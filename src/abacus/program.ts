@@ -1,4 +1,4 @@
-import { OperationType } from "../constants/operation_type";
+import { OperationType } from "../constants/operation_type.ts";
 
 export interface Operation {
     code: string; // 1 byte for the operation code

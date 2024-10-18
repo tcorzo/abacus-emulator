@@ -1,4 +1,4 @@
-import { Register } from "./program";
+import { Register } from "./program.ts";
 
 
 export interface Execution {

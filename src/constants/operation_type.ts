@@ -1,4 +1,4 @@
-import { Execution } from "../abacus/execution";
+import { Execution } from "../abacus/execution.ts";
 
 export interface OperationType {
     name: string;
