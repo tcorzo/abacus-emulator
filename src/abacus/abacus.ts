@@ -1,7 +1,7 @@
 import { Program, Register } from './program.ts';
 import { OperationType } from './operation_type.ts';
 
-class AbacusEmulator {
+export default class AbacusEmulator {
     private program: Program | null = null;
     private operations: Map<string, OperationType> = new Map();
     public accumulator: string = '0000'; // 4 bytes
@@ -53,7 +53,7 @@ class AbacusEmulator {
             throw new Error('No program loaded');
         }
 
-        if (this.current_address !== '000')
+        if (this.current_address === '000')
             return;
 
         const register = this.getRegister(this.current_address);
@@ -74,5 +74,3 @@ class AbacusEmulator {
 
     }
 }
-
-export default AbacusEmulator;
