@@ -39,7 +39,8 @@ export const ADD: OperationType = {
     id: 'ADD',
     name: 'Suma',
     execute: function (this: AbacusEmulator) {
-        const register = this.getRegister(this.current_address);
+        const currentRegister = this.getRegister(this.current_address);
+        const register = this.getRegister(currentRegister.operand());
         this.accumulator = (
             parseInt(this.accumulator, 16) + parseInt(register.operand(), 16)
         ).toString(16).padStart(4, '0');

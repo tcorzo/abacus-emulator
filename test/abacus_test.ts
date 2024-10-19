@@ -95,3 +95,46 @@ Deno.test("AbacusEmulator should load a value from aux register, negate it, and 
     // Ensure the value is negated and stored correctly
     expect(emulator.getRegister('201').value).toEqual('FEDC');
 });
+
+Deno.test("AbacusEmulator should add values from two registers and store the result in a target register", () => {
+    const program: Program = {
+        name: 'Add and Store',
+        description: 'Adds values from two registers and stores the result in a target register',
+        registers: [
+            new Register({ address: '100', value: 'A001', comment: '' }),
+            new Register({ address: '101', value: 'A002', comment: '' }),
+            new Register({ address: '102', value: 'S201', comment: '' }),
+            new Register({ address: '103', value: 'FFFF', comment: '' }),
+        ],
+        aux_registers: [
+            new Register({ address: '001', value: '0005', comment: '' }),
+            new Register({ address: '002', value: '0003', comment: '' })
+        ],
+        operations: [
+            {
+                code: 'A',
+                operation_type: OperationTypes.ADD
+            },
+            {
+                code: 'S',
+                operation_type: OperationTypes.STORE
+            },
+            {
+                code: 'F',
+                operation_type: OperationTypes.END
+            }
+        ]
+    };
+
+    const emulator = new AbacusEmulator();
+    emulator.loadProgram(program);
+
+    // Ensure the program is loaded correctly
+    expect(emulator['program']).toEqual(program);
+
+    // Run the emulator
+    emulator.run();
+
+    // Ensure the value is added and stored correctly
+    expect(emulator.getRegister('201').value).toEqual('0008');
+});
