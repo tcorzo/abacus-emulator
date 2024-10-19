@@ -79,11 +79,9 @@ export const JUMP_IF_POSITIVE: OperationType = {
     id: 'JUMP_IF_POSITIVE',
     name: 'Bifurca si AC > 0',
     execute: function (this: AbacusEmulator) {
-        if ((parseInt(this.accumulator, 16) & 0x8000) !== 0) {
-            const value = parseInt(this.accumulator, 16) - 0x10000;
-            if (value > 0) {
-                this.current_address = this.current_register.operand;
-            }
+        const value = parseInt(this.accumulator, 16);
+        if (value < 0x8000 && value > 0) {
+            this.current_address = this.current_register.operand;
         }
     }
 };

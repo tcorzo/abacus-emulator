@@ -319,6 +319,66 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
     expect(emulator.getRegister('201').value).toEqual('0333');
 });
 
+Deno.test("AbacusEmulator should jump to a specific address if the value in the accumulator is positive", () => {
+    const program: Program = {
+        name: 'Jump If Positive',
+        description: 'Jumps to a specific address if the value in the accumulator is positive',
+        registers: [
+            new Register({ address: '101', value: 'L2F1', comment: '' }),
+            new Register({ address: '102', value: 'J105', comment: '' }),
+            new Register({ address: '103', value: 'L2F2', comment: '' }),
+            new Register({ address: '104', value: 'J107', comment: '' }),
+            new Register({ address: '105', value: 'S201', comment: '' }),
+            new Register({ address: '106', value: 'FFFF', comment: '' }),
+            new Register({ address: '107', value: 'I333', comment: '' }),
+            new Register({ address: '108', value: 'S201', comment: '' }),
+            new Register({ address: '109', value: 'FFFF', comment: '' }),
+        ],
+        aux_registers: [
+            new Register({ address: '2F1', value: '0001', comment: 'AUX 1' }),
+            new Register({ address: '2F2', value: 'FFFF', comment: 'AUX -1' })
+        ],
+        operations: [
+            {
+                code: 'I',
+                operation_type: OperationTypes.INMEDIATE_LOAD
+            },
+            {
+                code: 'L',
+                operation_type: OperationTypes.LOAD
+            },
+            {
+                code: 'J',
+                operation_type: OperationTypes.JUMP_IF_POSITIVE
+            },
+            {
+                code: 'N',
+                operation_type: OperationTypes.NOT
+            },
+            {
+                code: 'S',
+                operation_type: OperationTypes.STORE
+            },
+            {
+                code: 'F',
+                operation_type: OperationTypes.END
+            }
+        ]
+    };
+
+    const emulator = new AbacusEmulator();
+    emulator.loadProgram(program);
+
+    // Ensure the program is loaded correctly
+    expect(emulator['program']).toEqual(program);
+
+    // Run the emulator
+    emulator.run();
+
+    // Ensure the jump occurred correctly
+    expect(emulator.getRegister('201').value).toEqual('0001');
+});
+
 Deno.test("AbacusEmulator should the execution when running the END operation", () => {
     const program: Program = {
         name: 'Example program',
