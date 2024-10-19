@@ -51,6 +51,40 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
     expect(emulator.current_address).toEqual('000');
 });
 
+Deno.test("AbacusEmulator should load an immediate value into the accumulator", () => {
+    const program: Program = {
+        name: 'Immediate Load',
+        description: 'Loads an immediate value into the accumulator',
+        registers: [
+            new Register({ address: '100', value: 'I123', comment: '' }),
+            new Register({ address: '101', value: 'FFFF', comment: '' }),
+        ],
+        aux_registers: [],
+        operations: [
+            {
+                code: 'I',
+                operation_type: OperationTypes.INMEDIATE_LOAD
+            },
+            {
+                code: 'F',
+                operation_type: OperationTypes.END
+            }
+        ]
+    };
+
+    const emulator = new AbacusEmulator();
+    emulator.loadProgram(program);
+
+    // Ensure the program is loaded correctly
+    expect(emulator['program']).toEqual(program);
+
+    // Run the emulator
+    emulator.run();
+
+    // Ensure the immediate value is loaded correctly into the accumulator
+    expect(emulator.accumulator).toEqual('0123');
+});
+
 Deno.test("AbacusEmulator should load a value from a register into the accumulator", () => {
     const program: Program = {
         name: 'Load Value',
