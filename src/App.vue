@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide } from 'vue';
-import { globalState, toggleMode } from './state';
+import { globalState, resetProgram, toggleMode } from './state';
 
 import AuxTable from '/src/components/AuxTable.vue';
 import OperationsTable from '/src/components/OperationsTable.vue';
@@ -21,6 +21,10 @@ provide('globalState', globalState);
       <ProgramTable class="program-table"/>
       <Emulator v-if="globalState.mode === 'run'"></Emulator>
     </div>
+
+    <button @click="resetProgram" class="reset-button">
+      Reset Program 🔄
+    </button>
 
     <button @click="toggleMode" class="mode-toggle">
       {{ globalState.mode === 'edit' ? 'Ejecutar ▶️' : 'Editar ✏️' }}

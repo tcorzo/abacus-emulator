@@ -1,5 +1,5 @@
 import { Program } from "./abacus/program.ts";
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { OperationTypes } from "./abacus/operation_type.ts";
 import { Register } from "./abacus/program.ts";
 import AbacusEmulator from "./abacus/abacus.ts";
@@ -35,14 +35,41 @@ const defaultProgram: Program = {
     ],
 };
 
+// Function to load program from localStorage
+function loadSavedProgram(): Program {
+    const savedProgram = localStorage.getItem('abacusProgram');
+    if (savedProgram) {
+        try {
+            const parsed = JSON.parse(savedProgram);
+            // Reconstruct Register objects
+            parsed.aux_registers = parsed.aux_registers.map((r: any) => new Register(r));
+            parsed.registers = parsed.registers.map((r: any) => new Register(r));
+            return parsed;
+        } catch (e) {
+            console.error('Failed to parse saved program:', e);
+        }
+    }
+    return defaultProgram;
+}
+
 export const globalState: GlobalState = reactive({
     mode: 'edit',
-    program: defaultProgram,
+    program: loadSavedProgram(),
     emulator: new AbacusEmulator(),
 });
+
+// Watch for changes in the program and save to localStorage
+watch(() => globalState.program, (newProgram) => {
+    localStorage.setItem('abacusProgram', JSON.stringify(newProgram));
+}, { deep: true });
 
 export function toggleMode() {
     globalState.mode = globalState.mode === 'edit' ? 'run' : 'edit';
     globalState.emulator.loadProgram(globalState.program);
 }
 
+// Function to reset program to default
+export function resetProgram() {
+    globalState.program = defaultProgram;
+    localStorage.removeItem('abacusProgram');
+}
