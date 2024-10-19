@@ -1,6 +1,6 @@
 import { Program } from "./abacus/program.ts";
 import { reactive, watch } from 'vue';
-import { OperationTypes } from "./abacus/operation_type.ts";
+import { OperationTypes, getOperationTypeById } from "./abacus/operation_type.ts";
 import { Register } from "./abacus/program.ts";
 import AbacusEmulator from "./abacus/abacus.ts";
 
@@ -44,6 +44,13 @@ function loadSavedProgram(): Program {
             // Reconstruct Register objects
             parsed.aux_registers = parsed.aux_registers.map((r: any) => new Register(r));
             parsed.registers = parsed.registers.map((r: any) => new Register(r));
+            parsed.operations = parsed.operations.map((o: any) => {
+                const operation_type = getOperationTypeById(o.operation_type.id);
+                if (!operation_type) {
+                    throw new Error(`Operation type ${o.operation_type.name} not found`);
+                }
+                return { code: o.code, operation_type };
+            });
             return parsed;
         } catch (e) {
             console.error('Failed to parse saved program:', e);
@@ -72,4 +79,11 @@ export function toggleMode() {
 export function resetProgram() {
     globalState.program = defaultProgram;
     localStorage.removeItem('abacusProgram');
+}
+
+// New function to step through the program
+export function stepProgram() {
+    if (globalState.mode === 'run') {
+        globalState.emulator.step();
+    }
 }

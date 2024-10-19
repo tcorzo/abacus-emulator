@@ -1,11 +1,13 @@
 import type AbacusEmulator from "@/abacus/abacus.ts";
 
 export interface OperationType {
+    id: string;
     name: string;
     execute: (this: AbacusEmulator) => void;
 }
 
 export const INMEDIATE_LOAD: OperationType = {
+    id: 'INMEDIATE_LOAD',
     name: 'Carga Inmediata',
     execute: function (this: AbacusEmulator) {
         const register = this.getRegister(this.current_address);
@@ -14,6 +16,7 @@ export const INMEDIATE_LOAD: OperationType = {
 };
 
 export const LOAD: OperationType = {
+    id: 'LOAD',
     name: 'Carga',
     execute: function (this: AbacusEmulator) {
         const currentRegister = this.getRegister(this.current_address);
@@ -23,6 +26,7 @@ export const LOAD: OperationType = {
 };
 
 export const STORE: OperationType = {
+    id: 'STORE',
     name: 'Almacena',
     execute: function (this: AbacusEmulator) {
         const currentRegister = this.getRegister(this.current_address);
@@ -32,6 +36,7 @@ export const STORE: OperationType = {
 };
 
 export const ADD: OperationType = {
+    id: 'ADD',
     name: 'Suma',
     execute: function (this: AbacusEmulator) {
         const register = this.getRegister(this.current_address);
@@ -42,6 +47,7 @@ export const ADD: OperationType = {
 };
 
 export const NOT: OperationType = {
+    id: 'NOT',
     name: 'NOT',
     execute: function (this: AbacusEmulator) {
         this.accumulator = (
@@ -51,6 +57,7 @@ export const NOT: OperationType = {
 };
 
 export const JUMP_IF_ZERO: OperationType = {
+    id: 'JUMP_IF_ZERO',
     name: 'Bifurca si AC = 0',
     execute: function (this: AbacusEmulator) {
         if (this.accumulator === '0000') {
@@ -61,6 +68,7 @@ export const JUMP_IF_ZERO: OperationType = {
 };
 
 export const JUMP_IF_NEGATIVE: OperationType = {
+    id: 'JUMP_IF_NEGATIVE',
     name: 'Bifurca si AC < 0',
     execute: function (this: AbacusEmulator) {
         if (parseInt(this.accumulator, 16) < 0) {
@@ -75,6 +83,7 @@ export const JUMP_IF_NEGATIVE: OperationType = {
 };
 
 export const JUMP_IF_POSITIVE: OperationType = {
+    id: 'JUMP_IF_POSITIVE',
     name: 'Bifurca si AC > 0',
     execute: function (this: AbacusEmulator) {
         if (parseInt(this.accumulator, 16) > 0) {
@@ -89,6 +98,7 @@ export const JUMP_IF_POSITIVE: OperationType = {
 };
 
 const END: OperationType = {
+    id: 'END',
     name: 'Fin de Programa',
     execute: function (this: AbacusEmulator) {
         this.current_address = '000';
@@ -106,3 +116,7 @@ export const OperationTypes = {
     JUMP_IF_POSITIVE,
     END
 };
+
+export function getOperationTypeById(id: string): OperationType | undefined {
+    return Object.values(OperationTypes).find(operationType => operationType.id === id);
+}

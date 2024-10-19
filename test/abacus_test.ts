@@ -24,6 +24,7 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
             {
                 code: '0',
                 operation_type: {
+                    id: 'NOP',
                     name: 'NOP',
                     execute: function (this: AbacusEmulator) {
                         // No operation

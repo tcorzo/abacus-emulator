@@ -56,21 +56,29 @@ export default class AbacusEmulator {
         if (this.current_address === '000')
             return;
 
-        const register = this.getRegister(this.current_address);
 
-        const operation = this.operations.get(register.opcode());
-        if (operation === undefined)
-            throw new Error(`Operation with code ${register.opcode()} is undefined`);
+        const register = this.getRegister(this.current_address);
+        const opcode = register.opcode();
+        const operation = this.operations.get(opcode);
+
+        if (!operation) {
+            console.error(`Unknown operation code: ${opcode} at address ${this.current_address}`);
+            // Optionally, you can choose to halt execution or skip to the next instruction
+            this.current_address = (parseInt(this.current_address, 16) + 1).toString(16).padStart(3, '0');
+            return;
+        }
 
         const old_address = this.current_address;
 
-        operation.execute.call(this);
-
-        if (old_address === this.current_address) {
-            this.current_address = (
-                parseInt(this.current_address, 16) + 1
-            ).toString(16).padStart(3, '0');
+        try {
+            operation.execute.call(this);
+        } catch (error) {
+            console.error(`Error executing operation ${opcode} at address ${this.current_address}:`, error);
+            // Optionally, you can choose to halt execution here
         }
 
+        if (old_address === this.current_address) {
+            this.current_address = (parseInt(this.current_address, 16) + 1).toString(16).padStart(3, '0');
+        }
     }
 }

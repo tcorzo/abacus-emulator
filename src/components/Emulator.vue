@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { inject, defineComponent } from 'vue';
 import { OperationTypes } from '../abacus/operation_type';
-import { GlobalState } from '@/state';
+import { GlobalState, stepProgram } from './../state';
 import { Register } from '@/abacus/program';
 
 const globalState: GlobalState = inject('globalState');
 const registers = Array.from(globalState.emulator.registers.values());
+
 </script>
 
 <template>
@@ -45,7 +46,7 @@ const registers = Array.from(globalState.emulator.registers.values());
       <p>{{ globalState.emulator.current_address }}</p>
     </div>
     <div>
-      <button @click="globalState.emulator.step()">Step</button>
+          <button @click="stepProgram" :disabled="globalState.mode !== 'run'">Step</button>
     </div>
   </div>
 </template>
