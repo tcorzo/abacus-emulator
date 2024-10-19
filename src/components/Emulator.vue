@@ -1,24 +1,16 @@
 <script setup lang="ts">
 import { inject, defineComponent } from 'vue';
-import { OperationTypes } from './../abacus/operation_type';
+import { OperationTypes } from '../abacus/operation_type';
 import { GlobalState } from '@/state';
 import { Register } from '@/abacus/program';
-import { ref, onMounted } from 'vue';
 
 const globalState: GlobalState = inject('globalState');
-const newReg = ref({ address: '', value: '', comment: '' });
-
-const addRegister = () => {
-  if (newReg.value.address && newReg.value.value && newReg.value.comment) {
-    globalState.program.registers.push({ ...newReg.value });
-    newReg.value = { address: '', value: '', comment: '' };
-  }
-};
+const registers = Array.from(globalState.emulator.registers.values());
 </script>
 
 <template>
   <div>
-    <h3>Programa</h3>
+    <h3>Emulación</h3>
     <table>
       <thead>
         <tr>
@@ -28,7 +20,7 @@ const addRegister = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(register, index) in globalState.program.registers" :key="index">
+        <tr v-for="register in registers">
           <td>
             <input v-if="globalState.mode === 'edit'" v-model="register.address" />
             <span v-else>{{ register.address }}</span>
@@ -42,13 +34,18 @@ const addRegister = () => {
             <span v-else>{{ register.comment }}</span>
           </td>
         </tr>
-        <tr v-if="globalState.mode === 'edit'">
-          <td><input v-model="newReg.address" placeholder="Address" /></td>
-          <td><input v-model="newReg.value" placeholder="Initial Value" /></td>
-          <td><input v-model="newReg.comment" placeholder="Description" /></td>
-          <td><button @click="addRegister">Add</button></td>
-        </tr>
       </tbody>
     </table>
+    <div>
+      <h4>Acumulador</h4>
+      <p>{{ globalState.emulator.accumulator }}</p>
+    </div>
+    <div>
+      <h4>Dirección actual</h4>
+      <p>{{ globalState.emulator.current_address }}</p>
+    </div>
+    <div>
+      <button @click="globalState.emulator.step()">Step</button>
+    </div>
   </div>
 </template>

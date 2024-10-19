@@ -5,6 +5,7 @@ import { globalState, toggleMode } from './state';
 import AuxTable from '/src/components/AuxTable.vue';
 import OperationsTable from '/src/components/OperationsTable.vue';
 import ProgramTable from '/src/components/ProgramTable.vue';
+import Emulator from '/src/components/Emulator.vue';
 
 provide('globalState', globalState);
 </script>
@@ -17,8 +18,10 @@ provide('globalState', globalState);
         <AuxTable class="aux-table"/>
         <OperationsTable class="operations-table"/>
       </div>
-      <ProgramTable @update-aux="updateAux" class="program-table"/>
+      <ProgramTable class="program-table"/>
+      <Emulator v-if="globalState.mode === 'run'"></Emulator>
     </div>
+
     <button @click="toggleMode" class="mode-toggle">
       {{ globalState.mode === 'edit' ? 'Ejecutar ▶️' : 'Editar ✏️' }}
     </button>

@@ -1,5 +1,5 @@
-import { Program, Register } from '@/abacus/program.ts';
-import { OperationType } from '@/abacus/operation_type.ts';
+import { Program, Register } from './program.ts';
+import { OperationType } from './operation_type.ts';
 
 class AbacusEmulator {
     private program: Program | null = null;
@@ -13,7 +13,7 @@ class AbacusEmulator {
     public getRegister(address: string): Register {
         let register = this.registers.get(address);
         if (!register) {
-            register = new Register(address, '0000');
+            register = new Register({ address: address, value: '0000', comment: '' });
             this.registers.set(address, register);
         }
         return register;
@@ -38,28 +38,40 @@ class AbacusEmulator {
         }
     }
 
-    run() {
+    public run() {
         if (!this.program) {
             throw new Error('No program loaded');
         }
 
         while (this.current_address !== '000') {
-            const register = this.getRegister(this.current_address);
-
-            const operation = this.operations.get(register.opcode());
-            if (operation === undefined)
-                throw new Error(`Operation with code ${register.opcode()} is undefined`);
-
-            const old_address = this.current_address;
-
-            operation.execute.call(this);
-
-            if (old_address === this.current_address) {
-                this.current_address = (
-                    parseInt(this.current_address, 16) + 1
-                ).toString(16).padStart(3, '0');
-            }
+            this.step();
         }
+    }
+
+    public step() {
+        if (!this.program) {
+            throw new Error('No program loaded');
+        }
+
+        if (this.current_address !== '000')
+            return;
+
+        const register = this.getRegister(this.current_address);
+
+        const operation = this.operations.get(register.opcode());
+        if (operation === undefined)
+            throw new Error(`Operation with code ${register.opcode()} is undefined`);
+
+        const old_address = this.current_address;
+
+        operation.execute.call(this);
+
+        if (old_address === this.current_address) {
+            this.current_address = (
+                parseInt(this.current_address, 16) + 1
+            ).toString(16).padStart(3, '0');
+        }
+
     }
 }
 
