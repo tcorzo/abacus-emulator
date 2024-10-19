@@ -51,6 +51,42 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
     expect(emulator.current_address).toEqual('000');
 });
 
+Deno.test("AbacusEmulator should load a value from a register into the accumulator", () => {
+    const program: Program = {
+        name: 'Load Value',
+        description: 'Loads a value from a register into the accumulator',
+        registers: [
+            new Register({ address: '100', value: 'L001', comment: '' }),
+            new Register({ address: '101', value: 'FFFF', comment: '' }),
+        ],
+        aux_registers: [
+            new Register({ address: '001', value: '1234', comment: '' })
+        ],
+        operations: [
+            {
+                code: 'L',
+                operation_type: OperationTypes.LOAD
+            },
+            {
+                code: 'F',
+                operation_type: OperationTypes.END
+            }
+        ]
+    };
+
+    const emulator = new AbacusEmulator();
+    emulator.loadProgram(program);
+
+    // Ensure the program is loaded correctly
+    expect(emulator['program']).toEqual(program);
+
+    // Run the emulator
+    emulator.run();
+
+    // Ensure the value is loaded correctly into the accumulator
+    expect(emulator.accumulator).toEqual('1234');
+});
+
 Deno.test("AbacusEmulator should load a value from aux register, negate it, and store it in register 201 using predefined operation types", () => {
     const program: Program = {
         name: 'Negate and Store',
