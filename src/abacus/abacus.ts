@@ -61,36 +61,29 @@ export default class AbacusEmulator {
     }
 
     public step() {
-        if (!this.program) {
+        if (!this.program)
             throw new Error('No program loaded');
-        }
 
         if (this.current_address === '000')
             return;
 
-
-        const register = this.getRegister(this.current_address);
-        const opcode = register.opcode();
-        const operation = this.operations.get(opcode);
+        const operation = this.operations.get(this.current_register.opcode);
 
         if (!operation) {
-            console.error(`Unknown operation code: ${opcode} at address ${this.current_address}`);
-            // Optionally, you can choose to halt execution or skip to the next instruction
-            this.current_address = (parseInt(this.current_address, 16) + 1).toString(16).padStart(3, '0');
-            return;
+            console.error(`Unknown operation code: ${this.current_register.opcode} at address ${this.current_address}`);
+            throw new Error("Unknown operation code");
         }
 
         const old_address = this.current_address;
 
-        try {
-            operation.execute.call(this);
-        } catch (error) {
-            console.error(`Error executing operation ${opcode} at address ${this.current_address}:`, error);
-            // Optionally, you can choose to halt execution here
-        }
+        operation.execute.call(this);
 
-        if (old_address === this.current_address) {
-            this.current_address = (parseInt(this.current_address, 16) + 1).toString(16).padStart(3, '0');
-        }
+        // Don't increment address if the operation is a jump
+        if (old_address === this.current_address)
+            this.current_address = this.nextAddress();
+    }
+
+    private nextAddress(): string {
+        return (parseInt(this.current_address, 16) + 1).toString(16).padStart(3, '0');
     }
 }
