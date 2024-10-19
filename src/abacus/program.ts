@@ -12,12 +12,11 @@ export class Register {
     opcode: () => string = () => this.value.slice(0, 1);
     operand: () => string = () => this.value.slice(-3);
 
-    constructor(address: string, value: string, comment: string = '') {
+    constructor({ address, value, comment = '' }: { address: string, value: string, comment: string }) {
         this.address = address;
         this.value = value.padStart(4, '0');
         this.comment = comment;
     }
-
 }
 
 export interface Program {

@@ -25,7 +25,6 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
                 code: '0',
                 operation_type: {
                     name: 'NOP',
-                    description: 'No operation',
                     execute: function (this: AbacusEmulator) {
                         // No operation
                     }
@@ -56,12 +55,13 @@ Deno.test("AbacusEmulator should load a value from aux register, negate it, and 
         name: 'Negate and Store',
         description: 'Loads a value from aux register, negates it, and stores it in register 201',
         registers: [
-            new Register('100', 'L001'),
-            new Register('101', 'NCCC'),
-            new Register('102', 'S201'),
-            new Register('103', 'FFFF')
+            new Register({ address: '100', value: 'L001', comment: '' }),
+            new Register({ address: '101', value: 'NCCC', comment: '' }),
+            new Register({ address: '102', value: 'S201', comment: '' }),
+            new Register({ address: '103', value: 'FFFF', comment: '' }),
         ],
-        aux_registers: [new Register('001', '0123')],
+        aux_registers: [
+            new Register({ address: '001', value: '0123', comment: '' })],
         operations: [
             {
                 code: 'L',
