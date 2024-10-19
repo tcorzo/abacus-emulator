@@ -10,8 +10,7 @@ export const INMEDIATE_LOAD: OperationType = {
     id: 'INMEDIATE_LOAD',
     name: 'Carga Inmediata',
     execute: function (this: AbacusEmulator) {
-        const register = this.getRegister(this.current_address);
-        this.accumulator = register.operand();
+        this.accumulator = this.current_register.operand();
     }
 };
 
@@ -19,8 +18,7 @@ export const LOAD: OperationType = {
     id: 'LOAD',
     name: 'Carga',
     execute: function (this: AbacusEmulator) {
-        const currentRegister = this.getRegister(this.current_address);
-        const register = this.getRegister(currentRegister.operand());
+        const register = this.getRegister(this.current_register.operand());
         this.accumulator = register.operand(); // TODO check if this is correct
     }
 };
@@ -29,8 +27,7 @@ export const STORE: OperationType = {
     id: 'STORE',
     name: 'Almacena',
     execute: function (this: AbacusEmulator) {
-        const currentRegister = this.getRegister(this.current_address);
-        const register = this.getRegister(currentRegister.operand());
+        const register = this.getRegister(this.current_register.operand());
         register.value = this.accumulator;
     }
 };
@@ -39,8 +36,7 @@ export const ADD: OperationType = {
     id: 'ADD',
     name: 'Suma',
     execute: function (this: AbacusEmulator) {
-        const currentRegister = this.getRegister(this.current_address);
-        const register = this.getRegister(currentRegister.operand());
+        const register = this.getRegister(this.current_register.operand());
         this.accumulator = (
             parseInt(this.accumulator, 16) + parseInt(register.operand(), 16)
         ).toString(16).padStart(4, '0');
@@ -61,10 +57,8 @@ export const JUMP_IF_ZERO: OperationType = {
     id: 'JUMP_IF_ZERO',
     name: 'Bifurca si AC = 0',
     execute: function (this: AbacusEmulator) {
-        if (this.accumulator === '0000') {
-            const register = this.getRegister(this.current_address);
-            this.current_address = register.operand();
-        }
+        if (this.accumulator === '0000')
+            this.current_address = this.current_register.operand();
     }
 };
 
@@ -72,14 +66,8 @@ export const JUMP_IF_NEGATIVE: OperationType = {
     id: 'JUMP_IF_NEGATIVE',
     name: 'Bifurca si AC < 0',
     execute: function (this: AbacusEmulator) {
-        if (parseInt(this.accumulator, 16) < 0) {
-            const register = this.getRegister(this.current_address);
-            if (register === undefined) {
-                throw new Error(`Register at address ${this.current_address} is undefined`);
-            }
-
-            this.current_address = register.operand();
-        }
+        if (parseInt(this.accumulator, 16) < 0)
+            this.current_address = this.current_register.operand();
     }
 };
 
@@ -87,14 +75,8 @@ export const JUMP_IF_POSITIVE: OperationType = {
     id: 'JUMP_IF_POSITIVE',
     name: 'Bifurca si AC > 0',
     execute: function (this: AbacusEmulator) {
-        if (parseInt(this.accumulator, 16) > 0) {
-            const register = this.getRegister(this.current_address);
-            if (register === undefined) {
-                throw new Error(`Register at address ${this.current_address} is undefined`);
-            }
-
-            this.current_address = register.operand();
-        }
+        if (parseInt(this.accumulator, 16) > 0)
+            this.current_address = this.current_register.operand();
     }
 };
 

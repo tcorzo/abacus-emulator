@@ -18,6 +18,10 @@ export default class AbacusEmulator {
         this._accumulator = v.padStart(4, '0');
     }
 
+    public get current_register(): Register {
+        return this.getRegister(this.current_address);
+    }
+
     public getRegister(address: string): Register {
         let register = this.registers.get(address);
         if (!register) {
