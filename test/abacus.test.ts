@@ -187,3 +187,33 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
     // Ensure the jump occurred correctly
     expect(emulator.getRegister('201').value).toEqual('0333');
 });
+
+
+Deno.test("AbacusEmulator should the execution when running the END operation", () => {
+    const program: Program = {
+        name: 'Example program',
+        description: 'Example program description',
+        registers: [
+            new Register({ address: '200', value: 'FFFF', comment: '' }),
+        ],
+        aux_registers: [],
+        operations: [
+            {
+                code: 'F',
+                operation_type: OperationTypes.END
+            }
+        ]
+    };
+
+    const emulator = new AbacusEmulator();
+    emulator.loadProgram(program);
+
+    // Ensure the program is loaded correctly
+    expect(emulator['program']).toEqual(program);
+
+    // Run the emulator
+    emulator.run();
+
+    // Ensure the jump occurred correctly
+    expect(emulator.current_address).toEqual('000');
+});
