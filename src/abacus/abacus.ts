@@ -4,11 +4,19 @@ import { OperationType } from './operation_type.ts';
 export default class AbacusEmulator {
     private program: Program | null = null;
     private operations: Map<string, OperationType> = new Map();
-    public accumulator: string = '0000'; // 4 bytes
+    private _accumulator: string = '0000'; // 4 bytes
     public current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
 
     constructor() { }
+
+    public get accumulator(): string {
+        return this._accumulator;
+    }
+
+    public set accumulator(v: string) {
+        this._accumulator = v.padStart(4, '0');
+    }
 
     public getRegister(address: string): Register {
         let register = this.registers.get(address);

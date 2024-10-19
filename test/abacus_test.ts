@@ -138,3 +138,52 @@ Deno.test("AbacusEmulator should add values from two registers and store the res
     // Ensure the value is added and stored correctly
     expect(emulator.getRegister('201').value).toEqual('0008');
 });
+
+Deno.test("AbacusEmulator should jump to a specific address if the value in the accumulator is zero", () => {
+    const program: Program = {
+        name: 'Jump If Zero',
+        description: 'Jumps to a specific address if the value in the accumulator is zero',
+        registers: [
+            new Register({ address: '101', value: 'I001', comment: '' }),
+            new Register({ address: '102', value: 'J105', comment: '' }),
+            new Register({ address: '103', value: 'I000', comment: '' }),
+            new Register({ address: '104', value: 'J107', comment: '' }),
+            new Register({ address: '105', value: 'S201', comment: '' }),
+            new Register({ address: '106', value: 'FFFF', comment: '' }),
+            new Register({ address: '107', value: 'I333', comment: '' }),
+            new Register({ address: '108', value: 'S201', comment: '' }),
+            new Register({ address: '109', value: 'FFFF', comment: '' }),
+        ],
+        aux_registers: [],
+        operations: [
+            {
+                code: 'I',
+                operation_type: OperationTypes.INMEDIATE_LOAD
+            },
+            {
+                code: 'J',
+                operation_type: OperationTypes.JUMP_IF_ZERO
+            },
+            {
+                code: 'S',
+                operation_type: OperationTypes.STORE
+            },
+            {
+                code: 'F',
+                operation_type: OperationTypes.END
+            }
+        ]
+    };
+
+    const emulator = new AbacusEmulator();
+    emulator.loadProgram(program);
+
+    // Ensure the program is loaded correctly
+    expect(emulator['program']).toEqual(program);
+
+    // Run the emulator
+    emulator.run();
+
+    // Ensure the jump occurred correctly
+    expect(emulator.getRegister('201').value).toEqual('0333');
+});
