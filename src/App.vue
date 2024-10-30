@@ -6,10 +6,11 @@ import AuxTable from '/src/components/AuxTable.vue';
 import OperationsTable from '/src/components/OperationsTable.vue';
 import ProgramTable from '/src/components/ProgramTable.vue';
 import Emulator from '/src/components/Emulator.vue';
+import UploadProgramButton from './components/UploadProgramButton.vue';
 
 provide('globalState', globalState);
-</script>
 
+</script>
 
 <template>
   <div id="app">
@@ -22,7 +23,11 @@ provide('globalState', globalState);
       <Emulator v-if="globalState.mode === 'run'"></Emulator>
     </div>
 
-    <button @click="resetProgram" class="reset-button">
+
+
+    <UploadProgramButton v-if="globalState.mode === 'edit'"></UploadProgramButton>
+
+    <button @click="resetProgram" class="reset-button" v-if="globalState.mode === 'edit'">
       Reset Program 🔄
     </button>
 

@@ -5,7 +5,7 @@ export default class AbacusEmulator {
     private program: Program | null = null;
     private operations: Map<string, OperationType> = new Map();
     private _accumulator: string = '0000'; // 4 bytes
-    public current_address: string = '000'; // 3 bytes for the address
+    private _current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
 
     constructor() { }
@@ -15,7 +15,16 @@ export default class AbacusEmulator {
     }
 
     public set accumulator(v: string) {
-        this._accumulator = v.padStart(4, '0');
+        // We slice the least 4 significant bytes to avoid storing overflows
+        this._accumulator = v.toUpperCase().slice(-4).padStart(4, '0');
+    }
+
+    public get current_address() {
+        return this._current_address;
+    }
+
+    public set current_address(v: string) {
+        this._current_address = v.toUpperCase().padStart(3, '0');
     }
 
     public get current_register(): Register {
@@ -84,6 +93,6 @@ export default class AbacusEmulator {
     }
 
     private nextAddress(): string {
-        return (parseInt(this.current_address, 16) + 1).toString(16).padStart(3, '0');
+        return (parseInt(this.current_address, 16) + 1).toString(16).toUpperCase().padStart(3, '0');
     }
 }

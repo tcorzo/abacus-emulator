@@ -178,7 +178,7 @@ Deno.test("AbacusEmulator should add values from two registers and store the res
         ],
         aux_registers: [
             new Register({ address: '001', value: '0005', comment: '' }),
-            new Register({ address: '002', value: '0003', comment: '' })
+            new Register({ address: '002', value: '1001', comment: '' })
         ],
         operations: [
             {
@@ -206,7 +206,7 @@ Deno.test("AbacusEmulator should add values from two registers and store the res
     emulator.run();
 
     // Ensure the value is added and stored correctly
-    expect(emulator.getRegister('201').value).toEqual('0008');
+    expect(emulator.getRegister('201').value).toEqual('1006');
 });
 
 Deno.test("AbacusEmulator should jump to a specific address if the value in the accumulator is zero", () => {

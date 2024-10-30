@@ -38,8 +38,8 @@ export const ADD: OperationType = {
     execute: function (this: AbacusEmulator) {
         const register = this.getRegister(this.current_register.operand);
         this.accumulator = (
-            parseInt(this.accumulator, 16) + parseInt(register.operand, 16)
-        ).toString(16).padStart(4, '0');
+            parseInt(this.accumulator, 16) + parseInt(register.value, 16)
+        ).toString(16);
     }
 };
 
@@ -49,7 +49,7 @@ export const NOT: OperationType = {
     execute: function (this: AbacusEmulator) {
         this.accumulator = (
             (~parseInt(this.accumulator, 16) & 0xFFFF)
-        ).toString(16).padStart(4, '0').toUpperCase();
+        ).toString(16);
     }
 };
 
