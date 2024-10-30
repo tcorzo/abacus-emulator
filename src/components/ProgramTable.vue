@@ -4,7 +4,7 @@ import { GlobalState } from '../state';
 import { ref } from 'vue';
 import { Register } from '../abacus/program';
 
-const globalState: GlobalState = inject('globalState')|| {} as GlobalState;
+const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const newReg = ref({ address: '', value: '', comment: '' });
 
 const addRegister = () => {
@@ -17,10 +17,11 @@ const addRegister = () => {
 
 <template>
   <div>
-    <h3>Programa</h3>
+    <h3>Program</h3>
     <table>
       <thead>
         <tr>
+          <th></th>
           <th>0x</th>
           <th>Valor</th>
           <th>Comentario</th>
@@ -28,6 +29,13 @@ const addRegister = () => {
       </thead>
       <tbody>
         <tr v-for="(register, index) in globalState.program.registers" :key="index">
+          <td v-if="globalState.emulator.hasBreakpoint(register.address)">
+            <button @click="globalState.emulator.removeBreakpoint(register.address)">🔴</button>
+          </td>
+          <td v-else>
+            <button @click="globalState.emulator.addBreakpoint(register.address)"></button>
+          </td>
+
           <td>
             <input v-if="globalState.mode === 'edit'" v-model="register.address" />
             <span v-else>{{ register.address }}</span>
@@ -42,6 +50,7 @@ const addRegister = () => {
           </td>
         </tr>
         <tr v-if="globalState.mode === 'edit'">
+          <td></td>
           <td><input v-model="newReg.address" placeholder="Address" /></td>
           <td><input v-model="newReg.value" placeholder="Initial Value" /></td>
           <td><input v-model="newReg.comment" placeholder="Description" /></td>

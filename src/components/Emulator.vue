@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, } from 'vue';
-import { GlobalState, stepProgram } from './../state';
+import { GlobalState } from './../state';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const registers = Array.from(globalState.emulator.registers.values());
@@ -44,7 +44,10 @@ const registers = Array.from(globalState.emulator.registers.values());
       <p>{{ globalState.emulator.current_address }}</p>
     </div>
     <div>
-          <button @click="stepProgram" :disabled="globalState.mode !== 'run'">Step</button>
+      <button @click="globalState.emulator.step" :disabled="globalState.mode !== 'run'">Step</button>
+    </div>
+    <div>
+      <button @click="globalState.emulator.run" :disabled="globalState.mode !== 'run'">Run</button>
     </div>
   </div>
 </template>

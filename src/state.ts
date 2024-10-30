@@ -14,7 +14,7 @@ const defaultProgram: Program = {
     name: 'New Program',
     description: 'A new program',
     operations: [
-        { code: '0', operation_type: OperationTypes.INMEDIATE_LOAD },
+        { code: '0', operation_type: OperationTypes.IMMEDIATE_LOAD },
         { code: '1', operation_type: OperationTypes.LOAD },
         { code: '2', operation_type: OperationTypes.STORE },
         { code: '3', operation_type: OperationTypes.ADD },
@@ -25,7 +25,7 @@ const defaultProgram: Program = {
         { code: 'F', operation_type: OperationTypes.END },
     ],
     aux_registers: [
-        new Register({ address: '2F0', value: '0000', comment: 'Auxiliar 1' }),
+        new Register({ address: '2F0', value: '0000', comment: 'Auxiliary 1' }),
     ],
     registers: [
         new Register({ address: '100', value: '0000', comment: 'Registro 100' }),
@@ -75,15 +75,7 @@ export function toggleMode() {
     globalState.emulator.loadProgram(globalState.program);
 }
 
-// Function to reset program to default
 export function resetProgram() {
     globalState.program = defaultProgram;
     localStorage.removeItem('abacusProgram');
-}
-
-// New function to step through the program
-export function stepProgram() {
-    if (globalState.mode === 'run') {
-        globalState.emulator.step();
-    }
 }
