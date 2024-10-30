@@ -63,7 +63,7 @@ Deno.test("AbacusEmulator should load an immediate value into the accumulator", 
         operations: [
             {
                 code: 'I',
-                operation_type: OperationTypes.INMEDIATE_LOAD
+                operation_type: OperationTypes.IMMEDIATE_LOAD
             },
             {
                 code: 'F',
@@ -228,7 +228,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
         operations: [
             {
                 code: 'I',
-                operation_type: OperationTypes.INMEDIATE_LOAD
+                operation_type: OperationTypes.IMMEDIATE_LOAD
             },
             {
                 code: 'J',
@@ -281,7 +281,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
         operations: [
             {
                 code: 'I',
-                operation_type: OperationTypes.INMEDIATE_LOAD
+                operation_type: OperationTypes.IMMEDIATE_LOAD
             },
             {
                 code: 'L',
@@ -341,7 +341,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
         operations: [
             {
                 code: 'I',
-                operation_type: OperationTypes.INMEDIATE_LOAD
+                operation_type: OperationTypes.IMMEDIATE_LOAD
             },
             {
                 code: 'L',

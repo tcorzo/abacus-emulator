@@ -13,7 +13,7 @@ Deno.test("ProgramImporter should correctly import a program from CSV", async ()
     expect(program.operations.length).toBe(9);
     expect(program.operations[0]).toEqual({
         code: '0',
-        operation_type: OperationTypes.INMEDIATE_LOAD
+        operation_type: OperationTypes.IMMEDIATE_LOAD
     });
     expect(program.operations[8]).toEqual({
         code: 'F',
@@ -43,6 +43,6 @@ Deno.test("ProgramImporter should correctly import a program from CSV", async ()
     expect(program.registers[13]).toEqual({
         address: '50D',
         value: 'FCCC',
-        comment: 'Fin de Programa'
+        comment: 'Fin de Program'
     });
 });
