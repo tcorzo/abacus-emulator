@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
+import { GlobalState } from '../state';
+import { Register } from '../abacus/program';
 
-const globalState = inject('globalState');
+const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const newAux = ref({ address: '', value: '', comment: '' });
 
 const addAuxRegister = () => {
   if (newAux.value.address && newAux.value.value && newAux.value.comment) {
-    globalState.program.aux_registers.push({ ...newAux.value });
+    globalState.program.aux_registers.push({ ...newAux.value } as Register);
     newAux.value = { address: '', value: '', comment: '' };
   }
 };

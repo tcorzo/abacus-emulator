@@ -1,5 +1,4 @@
 {
-  "composite": true,
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -21,7 +20,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",

@@ -1,4 +1,4 @@
-import type AbacusEmulator from "@/abacus/abacus.ts";
+import type AbacusEmulator from "./abacus.ts";
 
 export interface OperationType {
     id: string;

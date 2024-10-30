@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import { OperationTypes } from './../abacus/operation_type';
 import { GlobalState } from './../state';
 
-const globalState: GlobalState = inject('globalState');
+const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 </script>
 
 <template>

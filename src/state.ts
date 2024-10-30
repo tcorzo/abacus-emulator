@@ -59,7 +59,7 @@ function loadSavedProgram(): Program {
     return defaultProgram;
 }
 
-export const globalState: GlobalState = reactive({
+export const globalState = reactive({
     mode: 'edit',
     program: loadSavedProgram(),
     emulator: new AbacusEmulator(),

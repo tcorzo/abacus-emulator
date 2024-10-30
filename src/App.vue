@@ -2,14 +2,13 @@
 import { provide } from 'vue';
 import { globalState, resetProgram, toggleMode } from './state';
 
-import AuxTable from '/src/components/AuxTable.vue';
-import OperationsTable from '/src/components/OperationsTable.vue';
-import ProgramTable from '/src/components/ProgramTable.vue';
-import Emulator from '/src/components/Emulator.vue';
+import AuxTable from './components/AuxTable.vue';
+import OperationsTable from './components/OperationsTable.vue';
+import ProgramTable from './components/ProgramTable.vue';
+import Emulator from './components/Emulator.vue';
 import UploadProgramButton from './components/UploadProgramButton.vue';
 
 provide('globalState', globalState);
-
 </script>
 
 <template>

@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { inject, defineComponent } from 'vue';
-import { OperationTypes } from '../abacus/operation_type';
+import { inject, } from 'vue';
 import { GlobalState, stepProgram } from './../state';
-import { Register } from '@/abacus/program';
 
-const globalState: GlobalState = inject('globalState');
+const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const registers = Array.from(globalState.emulator.registers.values());
 
 </script>

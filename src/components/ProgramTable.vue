@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { inject, defineComponent } from 'vue';
-import { OperationTypes } from './../abacus/operation_type';
-import { GlobalState } from '@/state';
-import { Register } from '@/abacus/program';
-import { ref, onMounted } from 'vue';
+import { inject, } from 'vue';
+import { GlobalState } from '../state';
+import { ref } from 'vue';
+import { Register } from '../abacus/program';
 
-const globalState: GlobalState = inject('globalState');
+const globalState: GlobalState = inject('globalState')|| {} as GlobalState;
 const newReg = ref({ address: '', value: '', comment: '' });
 
 const addRegister = () => {
   if (newReg.value.address && newReg.value.value && newReg.value.comment) {
-    globalState.program.registers.push({ ...newReg.value });
+    globalState.program.registers.push({ ...newReg.value } as Register);
     newReg.value = { address: '', value: '', comment: '' };
   }
 };
