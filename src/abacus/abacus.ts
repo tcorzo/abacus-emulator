@@ -7,6 +7,7 @@ export default class AbacusEmulator {
     private _accumulator: string = '0000'; // 4 bytes
     private _current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
+    public _breakpoints: string[] = [];
 
     constructor() { }
 
@@ -44,6 +45,24 @@ export default class AbacusEmulator {
         this.registers.set(address, register);
     }
 
+    public addBreakpoint(address: string): void {
+        this._breakpoints.push(address);
+    }
+
+    public hasBreakpoint(address: string): boolean {
+        return this._breakpoints.includes(address);
+    }
+
+    /**
+     * removeBreakpoint
+     */
+    public removeBreakpoint(address: string): void {
+        const index = this._breakpoints.indexOf(address);
+        if (index > -1)
+            this._breakpoints.splice(index, 1);
+
+    }
+
     public loadProgram(program: Program): void {
         this.program = program;
         this.accumulator = '0000';
@@ -64,7 +83,19 @@ export default class AbacusEmulator {
             throw new Error('No program loaded');
         }
 
-        while (this.current_address !== '000') {
+        // Continue after current breakpoint
+        if (this.hasBreakpoint(this.current_address))
+            this.step();
+
+        while (true) {
+            // End of program
+            if (this.current_address === '000')
+                break;
+
+            // Breakpoint
+            if (this.hasBreakpoint(this.current_address))
+                break;
+
             this.step();
         }
     }

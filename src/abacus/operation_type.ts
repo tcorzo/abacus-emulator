@@ -6,8 +6,8 @@ export interface OperationType {
     execute: (this: AbacusEmulator) => void;
 }
 
-export const INMEDIATE_LOAD: OperationType = {
-    id: 'INMEDIATE_LOAD',
+export const IMMEDIATE_LOAD: OperationType = {
+    id: 'IMMEDIATE_LOAD',
     name: 'Carga Inmediata',
     execute: function (this: AbacusEmulator) {
         this.accumulator = this.current_register.operand;
@@ -88,14 +88,14 @@ export const JUMP_IF_POSITIVE: OperationType = {
 
 const END: OperationType = {
     id: 'END',
-    name: 'Fin de Programa',
+    name: 'Fin de Program',
     execute: function (this: AbacusEmulator) {
         this.current_address = '000';
     }
 };
 
 export const OperationTypes = {
-    INMEDIATE_LOAD,
+    IMMEDIATE_LOAD,
     LOAD,
     STORE,
     ADD,
