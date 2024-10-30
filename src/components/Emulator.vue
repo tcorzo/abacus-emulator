@@ -19,7 +19,8 @@ const registers = Array.from(globalState.emulator.registers.values());
         </tr>
       </thead>
       <tbody>
-        <tr v-for="register in registers">
+        <tr v-for="register in registers"
+          :class="{ 'current-register': register.address === globalState.emulator.current_address }">
           <td>
             <input v-if="globalState.mode === 'edit'" v-model="register.address" />
             <span v-else>{{ register.address }}</span>
@@ -51,3 +52,11 @@ const registers = Array.from(globalState.emulator.registers.values());
     </div>
   </div>
 </template>
+
+<style scoped>
+.current-register {
+  background-color: chocolate;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+</style>
