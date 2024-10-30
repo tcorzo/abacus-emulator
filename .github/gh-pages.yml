@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: GitHub Pages
 
 on:
   push:
@@ -7,12 +7,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
@@ -25,8 +29,8 @@ jobs:
       - name: Build project
         run: deno task build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
