@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import { GlobalState } from './../state';
+import { GlobalState } from './../../state';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 </script>
@@ -17,13 +17,8 @@ const globalState: GlobalState = inject('globalState') || {} as GlobalState;
       </thead>
       <tbody>
         <tr v-for="(operation, index) in globalState.program.operations" :key="index">
-          <td>
-            <input v-if="globalState.mode === 'edit'" v-model="operation.code" />
-            <span v-else>{{ operation.code }}</span>
-          </td>
-          <td>
-            <span>{{ operation.operation_type.name }}</span>
-          </td>
+          <td> <input v-model="operation.code" /> </td>
+          <td> <span>{{ operation.operation_type.name }}</span> </td>
         </tr>
       </tbody>
     </table>

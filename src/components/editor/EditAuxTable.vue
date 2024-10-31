@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
 import { ref } from 'vue';
-import { GlobalState } from '../state';
-import { Register } from '../abacus/program';
+import { GlobalState } from '../../state';
+import { Register } from '../../abacus/program';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const newAux = ref({ address: '', value: '', comment: '' });
