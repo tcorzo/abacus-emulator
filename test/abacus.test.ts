@@ -11,7 +11,7 @@ Deno.test("AbacusEmulator should throw error if no program is loaded", () => {
 });
 
 Deno.test("AbacusEmulator should load a program and run without errors", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Test program',
         description: 'Test program description',
         registers: [
@@ -36,7 +36,7 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -48,11 +48,11 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
     emulator.run();
 
     // Ensure the execution finished correctly
-    expect(emulator.current_address).toEqual('000');
+    expect(emulator.finished).toBeTruthy();
 });
 
 Deno.test("AbacusEmulator should load an immediate value into the accumulator", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Immediate Load',
         description: 'Loads an immediate value into the accumulator',
         registers: [
@@ -70,7 +70,7 @@ Deno.test("AbacusEmulator should load an immediate value into the accumulator", 
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -86,7 +86,7 @@ Deno.test("AbacusEmulator should load an immediate value into the accumulator", 
 });
 
 Deno.test("AbacusEmulator should load a value from a register into the accumulator", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Load Value',
         description: 'Loads a value from a register into the accumulator',
         registers: [
@@ -106,7 +106,7 @@ Deno.test("AbacusEmulator should load a value from a register into the accumulat
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -122,7 +122,7 @@ Deno.test("AbacusEmulator should load a value from a register into the accumulat
 });
 
 Deno.test("AbacusEmulator should load a value from aux register, negate it, and store it in register 201 using predefined operation types", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Negate and Store',
         description: 'Loads a value from aux register, negates it, and stores it in register 201',
         registers: [
@@ -151,7 +151,7 @@ Deno.test("AbacusEmulator should load a value from aux register, negate it, and 
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -167,7 +167,7 @@ Deno.test("AbacusEmulator should load a value from aux register, negate it, and 
 });
 
 Deno.test("AbacusEmulator should add values from two registers and store the result in a target register", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Add and Store',
         description: 'Adds values from two registers and stores the result in a target register',
         registers: [
@@ -194,7 +194,7 @@ Deno.test("AbacusEmulator should add values from two registers and store the res
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -210,7 +210,7 @@ Deno.test("AbacusEmulator should add values from two registers and store the res
 });
 
 Deno.test("AbacusEmulator should jump to a specific address if the value in the accumulator is zero", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Jump If Zero',
         description: 'Jumps to a specific address if the value in the accumulator is zero',
         registers: [
@@ -243,7 +243,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -260,7 +260,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
 
 
 Deno.test("AbacusEmulator should jump to a specific address if the value in the accumulator is negative", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Example program',
         description: 'Example program description',
         registers: [
@@ -304,7 +304,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -320,7 +320,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
 });
 
 Deno.test("AbacusEmulator should jump to a specific address if the value in the accumulator is positive", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Jump If Positive',
         description: 'Jumps to a specific address if the value in the accumulator is positive',
         registers: [
@@ -364,7 +364,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -380,7 +380,7 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
 });
 
 Deno.test("AbacusEmulator should the execution when running the END operation", () => {
-    const program: Program = {
+    const program = new Program({
         name: 'Example program',
         description: 'Example program description',
         registers: [
@@ -393,7 +393,7 @@ Deno.test("AbacusEmulator should the execution when running the END operation", 
                 operation_type: OperationTypes.END
             }
         ]
-    };
+    });
 
     const emulator = new AbacusEmulator();
     emulator.loadProgram(program);
@@ -405,5 +405,5 @@ Deno.test("AbacusEmulator should the execution when running the END operation", 
     emulator.run();
 
     // Ensure the jump occurred correctly
-    expect(emulator.current_address).toEqual('000');
+    expect(emulator.finished).toBeTruthy();
 });

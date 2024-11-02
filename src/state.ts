@@ -9,10 +9,10 @@ export interface GlobalState {
     program: Program;
 }
 
-const defaultProgram = new Program(
-    'New Program',
-    'A new program',
-    [
+const defaultProgram = new Program({
+    name: 'New Program',
+    description: 'A new program',
+    operations: [
         { code: '0', operation_type: OperationTypes.IMMEDIATE_LOAD },
         { code: '1', operation_type: OperationTypes.LOAD },
         { code: '2', operation_type: OperationTypes.STORE },
@@ -23,16 +23,16 @@ const defaultProgram = new Program(
         { code: '9', operation_type: OperationTypes.JUMP_IF_POSITIVE },
         { code: 'F', operation_type: OperationTypes.END },
     ],
-    [
+    aux_registers: [
         new Register({ address: '2F0', value: '0000', comment: 'Auxiliary 1' }),
     ],
-    [
+    registers: [
         new Register({ address: '100', value: '0000', comment: 'Registro 100' }),
         new Register({ address: '101', value: '0000', comment: 'Registro 101' }),
         new Register({ address: '102', value: '0000', comment: 'Registro 102' }),
         new Register({ address: '103', value: '0000', comment: 'Registro 103' }),
     ],
-);
+});
 
 // Function to load program from localStorage
 function loadSavedProgram(): Program {
@@ -52,13 +52,13 @@ function loadSavedProgram(): Program {
             }
             return { code: o.code, operation_type };
         });
-        return new Program(
-            parsed.name,
-            parsed.description,
-            parsed.operations,
-            parsed.aux_registers,
-            parsed.registers
-        );
+        return new Program({
+            name: parsed.name,
+            description: parsed.description,
+            operations: parsed.operations,
+            aux_registers: parsed.aux_registers,
+            registers: parsed.registers
+        });
     } catch (e) {
         console.error('Failed to parse saved program:', e);
     }

@@ -37,7 +37,13 @@ export class Program {
     aux_registers: Register[];
     registers: Register[];
 
-    constructor(name: string, description: string, operations: Operation[], aux_registers: Register[], registers: Register[]) {
+    constructor({ name, description, operations, aux_registers, registers }: {
+        name: string;
+        description: string;
+        operations: Operation[];
+        aux_registers: Register[];
+        registers: Register[];
+    }) {
         this.name = name;
         this.description = description;
         this.operations = operations;
@@ -46,13 +52,13 @@ export class Program {
     }
 
     public clone(): Program {
-        return new Program(
-            this.name,
-            this.description,
-            [...this.operations],
-            this.aux_registers.map(r => r.clone()),
-            this.registers.map(r => r.clone())
-        );
+        return new Program({
+            name: this.name,
+            description: this.description,
+            operations: this.operations.map(op => ({ code: op.code, operation_type: op.operation_type })),
+            aux_registers: this.aux_registers.map(reg => reg.clone()),
+            registers: this.registers.map(reg => reg.clone())
+        });
     }
 
 }

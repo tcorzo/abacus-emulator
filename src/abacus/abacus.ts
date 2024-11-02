@@ -126,20 +126,14 @@ export default class AbacusEmulator {
     }
 
     public step() {
-        console.log('Step');
-
         if (!this.program)
             throw new Error('No program loaded');
-
-        if (this.current_address === '000')
-            return;
 
         if (!this.checkRegister(this.current_address)) {
             this.error = `Unknown address: ${this.current_address}`;
             return;
         }
 
-        console.log(this.current_register);
         const operation = this.operations.get(this.current_register.opcode);
 
         if (!operation) {
