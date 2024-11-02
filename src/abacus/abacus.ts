@@ -8,7 +8,7 @@ export default class AbacusEmulator {
     private _current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
     private _breakpoints: string[] = [];
-    private finished: boolean = false;
+    public finished: boolean = false;
     public error: string = '';
 
     public timeout = 3000; // 3 seconds in milliseconds
@@ -87,6 +87,7 @@ export default class AbacusEmulator {
         this.current_address = program.registers[0].address;
         this.registers = new Map(program.registers.map(r => [r.address, r]));
         this.error = '';
+        this.finished = false;
 
         for (const auxRegister of program.aux_registers) {
             this.setRegister(auxRegister.address, auxRegister);
@@ -109,16 +110,12 @@ export default class AbacusEmulator {
         if (this.hasBreakpoint(this.current_address))
             this.step();
 
-        while (true) {
+        while (!this.finished) {
             // Check timeout
             if (Date.now() - startTime > currentTimeout) {
                 this.error = `Program execution timeout ${currentTimeout}ms`;
                 return;
             }
-
-            // End of program
-            if (this.current_address === '000')
-                break;
 
             // Breakpoint
             if (this.hasBreakpoint(this.current_address))
@@ -153,6 +150,8 @@ export default class AbacusEmulator {
         const old_address = this.current_address;
 
         operation.execute.call(this);
+        if (this.finished)
+            return;
 
         // Don't increment address if the operation is a jump
         if (old_address === this.current_address)

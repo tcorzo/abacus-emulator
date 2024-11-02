@@ -90,7 +90,7 @@ const END: OperationType = {
     id: 'END',
     name: 'Fin de Program',
     execute: function (this: AbacusEmulator) {
-        this.current_address = '000';
+        this.finished = true;
     }
 };
 
