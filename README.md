@@ -35,3 +35,4 @@ a template for your own programs.
 - [ ] Export program to CSV
 - [x] Indicate current register in the UI
 - [ ] Flash register when it changes
+- [ ] Add CI checks
