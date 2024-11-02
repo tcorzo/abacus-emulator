@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { inject, provide, reactive } from 'vue';
 import { GlobalState } from './../state';
 import ProgramRegisters from './emulator/ProgramRegisters.vue';
 import AuxRegisters from './emulator/AuxRegisters.vue';
+import AbacusEmulator from '../abacus/abacus';
+import Error from './emulator/Error.vue';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
+
+const emulator = reactive(new AbacusEmulator());
+
+emulator.loadProgram(globalState.program.clone());
+
+provide('emulator', emulator);
 </script>
 
 <template>
@@ -18,17 +26,18 @@ const globalState: GlobalState = inject('globalState') || {} as GlobalState;
         <div id="emulator-status">
           <div>
             <h4>Acumulador</h4>
-            <p>{{ globalState.emulator.accumulator }}</p>
+            <p>{{ emulator.accumulator }}</p>
           </div>
           <div>
             <h4>Dirección actual</h4>
-            <p>{{ globalState.emulator.current_address }}</p>
+            <p>{{ emulator.current_address }}</p>
           </div>
         </div>
         <div id="emulator-actions">
-          <button @click="globalState.emulator.step" :disabled="globalState.mode !== 'run'">Step</button>
-          <button @click="globalState.emulator.run" :disabled="globalState.mode !== 'run'">Run ▶️</button>
+          <button @click="emulator.step">Step</button>
+          <button @click="emulator.run">Run ▶️</button>
         </div>
+        <Error v-if="emulator.error"></Error>
       </div>
 
     </div>

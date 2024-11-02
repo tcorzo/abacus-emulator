@@ -7,13 +7,12 @@ import AbacusEmulator from "./abacus/abacus.ts";
 export interface GlobalState {
     mode: 'edit' | 'run';
     program: Program;
-    emulator: AbacusEmulator;
 }
 
-const defaultProgram: Program = {
-    name: 'New Program',
-    description: 'A new program',
-    operations: [
+const defaultProgram = new Program(
+    'New Program',
+    'A new program',
+    [
         { code: '0', operation_type: OperationTypes.IMMEDIATE_LOAD },
         { code: '1', operation_type: OperationTypes.LOAD },
         { code: '2', operation_type: OperationTypes.STORE },
@@ -24,38 +23,46 @@ const defaultProgram: Program = {
         { code: '9', operation_type: OperationTypes.JUMP_IF_POSITIVE },
         { code: 'F', operation_type: OperationTypes.END },
     ],
-    aux_registers: [
+    [
         new Register({ address: '2F0', value: '0000', comment: 'Auxiliary 1' }),
     ],
-    registers: [
+    [
         new Register({ address: '100', value: '0000', comment: 'Registro 100' }),
         new Register({ address: '101', value: '0000', comment: 'Registro 101' }),
         new Register({ address: '102', value: '0000', comment: 'Registro 102' }),
         new Register({ address: '103', value: '0000', comment: 'Registro 103' }),
     ],
-};
+);
 
 // Function to load program from localStorage
 function loadSavedProgram(): Program {
     const savedProgram = localStorage.getItem('abacusProgram');
-    if (savedProgram) {
-        try {
-            const parsed = JSON.parse(savedProgram);
-            // Reconstruct Register objects
-            parsed.aux_registers = parsed.aux_registers.map((r: any) => new Register(r));
-            parsed.registers = parsed.registers.map((r: any) => new Register(r));
-            parsed.operations = parsed.operations.map((o: any) => {
-                const operation_type = getOperationTypeById(o.operation_type.id);
-                if (!operation_type) {
-                    throw new Error(`Operation type ${o.operation_type.name} not found`);
-                }
-                return { code: o.code, operation_type };
-            });
-            return parsed;
-        } catch (e) {
-            console.error('Failed to parse saved program:', e);
-        }
+    if (!savedProgram)
+        return defaultProgram;
+
+    try {
+        const parsed = JSON.parse(savedProgram);
+        // Reconstruct Register objects
+        parsed.aux_registers = parsed.aux_registers.map((r: any) => new Register(r));
+        parsed.registers = parsed.registers.map((r: any) => new Register(r));
+        parsed.operations = parsed.operations.map((o: any) => {
+            const operation_type = getOperationTypeById(o.operation_type.id);
+            if (!operation_type) {
+                throw new Error(`Operation type ${o.operation_type.name} not found`);
+            }
+            return { code: o.code, operation_type };
+        });
+        return new Program(
+            parsed.name,
+            parsed.description,
+            parsed.operations,
+            parsed.aux_registers,
+            parsed.registers
+        );
+    } catch (e) {
+        console.error('Failed to parse saved program:', e);
     }
+
     return defaultProgram;
 }
 
@@ -72,7 +79,6 @@ watch(() => globalState.program, (newProgram) => {
 
 export function toggleMode() {
     globalState.mode = globalState.mode === 'edit' ? 'run' : 'edit';
-    globalState.emulator.loadProgram(globalState.program);
 }
 
 export function resetProgram() {

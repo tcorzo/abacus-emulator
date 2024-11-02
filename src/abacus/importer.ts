@@ -54,12 +54,12 @@ export class ProgramImporter {
             }
         }
 
-        return {
-            name: 'imported_program',
-            description: '',
+        return new Program(
+            'imported_program',
+            '',
             operations,
-            aux_registers: auxRegisters,
+            auxRegisters,
             registers
-        };
+        );
     }
 }

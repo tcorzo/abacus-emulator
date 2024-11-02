@@ -24,12 +24,35 @@ export class Register {
         return this.value.slice(-3);
     }
 
+    public clone(): Register {
+        return new Register({ address: this.address, value: this.value, comment: this.comment });
+    }
+
 }
 
-export interface Program {
+export class Program {
     name: string;
     description: string;
     operations: Operation[];
     aux_registers: Register[];
     registers: Register[];
+
+    constructor(name: string, description: string, operations: Operation[], aux_registers: Register[], registers: Register[]) {
+        this.name = name;
+        this.description = description;
+        this.operations = operations;
+        this.aux_registers = aux_registers;
+        this.registers = registers;
+    }
+
+    public clone(): Program {
+        return new Program(
+            this.name,
+            this.description,
+            [...this.operations],
+            this.aux_registers.map(r => r.clone()),
+            this.registers.map(r => r.clone())
+        );
+    }
+
 }

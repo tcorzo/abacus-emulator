@@ -7,7 +7,11 @@ export default class AbacusEmulator {
     private _accumulator: string = '0000'; // 4 bytes
     private _current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
-    public _breakpoints: string[] = [];
+    private _breakpoints: string[] = [];
+    private finished: boolean = false;
+    public error: string = '';
+
+    public timeout = 3000; // 3 seconds in milliseconds
 
     constructor() { }
 
@@ -45,6 +49,20 @@ export default class AbacusEmulator {
         this.registers.set(address, register);
     }
 
+
+    /**
+     * Checks if a register exists at the specified address.
+     *
+     * @param address - The memory address to check for a register.
+     * @returns `true` if a register exists at the specified address, `false` otherwise.
+     */
+    public checkRegister(address: string): boolean {
+        if (!this.registers.get(address))
+            return false;
+
+        return true;
+    }
+
     public addBreakpoint(address: string): void {
         this._breakpoints.push(address);
     }
@@ -68,6 +86,7 @@ export default class AbacusEmulator {
         this.accumulator = '0000';
         this.current_address = program.registers[0].address;
         this.registers = new Map(program.registers.map(r => [r.address, r]));
+        this.error = '';
 
         for (const auxRegister of program.aux_registers) {
             this.setRegister(auxRegister.address, auxRegister);
@@ -83,11 +102,20 @@ export default class AbacusEmulator {
             throw new Error('No program loaded');
         }
 
+        const startTime = Date.now();
+        const currentTimeout = this.timeout;
+
         // Continue after current breakpoint
         if (this.hasBreakpoint(this.current_address))
             this.step();
 
         while (true) {
+            // Check timeout
+            if (Date.now() - startTime > currentTimeout) {
+                this.error = `Program execution timeout ${currentTimeout}ms`;
+                return;
+            }
+
             // End of program
             if (this.current_address === '000')
                 break;
@@ -101,17 +129,25 @@ export default class AbacusEmulator {
     }
 
     public step() {
+        console.log('Step');
+
         if (!this.program)
             throw new Error('No program loaded');
 
         if (this.current_address === '000')
             return;
 
+        if (!this.checkRegister(this.current_address)) {
+            this.error = `Unknown address: ${this.current_address}`;
+            return;
+        }
+
+        console.log(this.current_register);
         const operation = this.operations.get(this.current_register.opcode);
 
         if (!operation) {
-            console.error(`Unknown operation code: ${this.current_register.opcode} at address ${this.current_address}`);
-            throw new Error("Unknown operation code");
+            this.error = `Unknown operation code: ${this.current_register.opcode} at address ${this.current_address}`;
+            return;
         }
 
         const old_address = this.current_address;

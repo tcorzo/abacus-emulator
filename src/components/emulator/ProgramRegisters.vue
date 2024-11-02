@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { inject, } from 'vue';
 import { GlobalState } from './../../state';
+import AbacusEmulator from '@/abacus/abacus';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
+const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
 
 const programAddresses = globalState.program.registers.map((r) => r.address)
-const registers = Array.from(globalState.emulator.registers.values())
+const registers = Array.from(emulator.registers.values())
     .filter((r) => programAddresses.includes(r.address));
 </script>
 
@@ -22,7 +24,7 @@ const registers = Array.from(globalState.emulator.registers.values())
             </thead>
             <tbody>
                 <tr v-for="register in registers"
-                    :class="{ 'current-register': register.address === globalState.emulator.current_address }">
+                    :class="{ 'current-register': register.address === emulator.current_address }">
                     <td>
                         <input v-if="globalState.mode === 'edit'" v-model="register.address" />
                         <span v-else>{{ register.address }}</span>
