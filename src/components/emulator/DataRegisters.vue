@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { inject, } from 'vue';
+import { inject, computed } from 'vue';
 import { GlobalState } from '../../state';
 import AbacusEmulator from '@/abacus/abacus';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
 
-const programAddresses = globalState.program.registers.map((r) => r.address)
-const registers = Array.from(emulator.registers.values())
-    .filter((r) => programAddresses.includes(r.address));
+const dataAddresses = globalState.program.data_registers.map((r) => r.address);
+
+const registers = computed(() => {
+    const combinedAddresses = [...dataAddresses, ...emulator.createdAddresses];
+    return Array.from(emulator.registers.values())
+        .filter((r) => combinedAddresses.includes(r.address));
+});
 </script>
 
 <template>
     <div>
-        <h3>Emulación</h3>
+        <h3>Data</h3>
         <table>
             <thead>
                 <tr>

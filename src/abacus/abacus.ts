@@ -8,6 +8,7 @@ export default class AbacusEmulator {
     private _current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
     private _breakpoints: string[] = [];
+    public createdAddresses: string[] = [];
     public finished: boolean = false;
     public error: string = '';
 
@@ -38,14 +39,20 @@ export default class AbacusEmulator {
 
     public getRegister(address: string): Register {
         let register = this.registers.get(address);
+
         if (!register) {
             register = new Register({ address: address, value: '0000', comment: '' });
             this.registers.set(address, register);
+            this.createdAddresses.push(address);
         }
-        return register;
+
+        return this.registers.get(address)!;
     }
 
     public setRegister(address: string, register: Register): void {
+        if (!this.getRegister(address))
+            this.createdAddresses.push(address);
+
         this.registers.set(address, register);
     }
 
@@ -89,8 +96,12 @@ export default class AbacusEmulator {
         this.error = '';
         this.finished = false;
 
-        for (const auxRegister of program.aux_registers) {
-            this.setRegister(auxRegister.address, auxRegister);
+        for (const register of program.aux_registers) {
+            this.registers.set(register.address, register);
+        }
+
+        for (const register of program.data_registers) {
+            this.registers.set(register.address, register);
         }
 
         for (const operation of program.operations) {

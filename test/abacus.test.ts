@@ -35,7 +35,8 @@ Deno.test("AbacusEmulator should load a program and run without errors", () => {
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -69,7 +70,8 @@ Deno.test("AbacusEmulator should load an immediate value into the accumulator", 
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -105,7 +107,8 @@ Deno.test("AbacusEmulator should load a value from a register into the accumulat
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -150,7 +153,8 @@ Deno.test("AbacusEmulator should load a value from aux register, negate it, and 
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -193,7 +197,8 @@ Deno.test("AbacusEmulator should add values from two registers and store the res
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -242,7 +247,8 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -303,7 +309,8 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -363,7 +370,8 @@ Deno.test("AbacusEmulator should jump to a specific address if the value in the 
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();
@@ -392,7 +400,8 @@ Deno.test("AbacusEmulator should the execution when running the END operation", 
                 code: 'F',
                 operation_type: OperationTypes.END
             }
-        ]
+        ],
+        data_registers: [],
     });
 
     const emulator = new AbacusEmulator();

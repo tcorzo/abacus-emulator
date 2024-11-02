@@ -5,6 +5,7 @@ import ProgramRegisters from './emulator/ProgramRegisters.vue';
 import AuxRegisters from './emulator/AuxRegisters.vue';
 import AbacusEmulator from '../abacus/abacus';
 import Error from './emulator/Error.vue';
+import DataRegisters from './emulator/DataRegisters.vue';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 
@@ -19,6 +20,7 @@ provide('emulator', emulator);
   <div id="emulator">
     <AuxRegisters></AuxRegisters>
     <ProgramRegisters></ProgramRegisters>
+    <DataRegisters></DataRegisters>
 
     <div>
 

@@ -32,6 +32,7 @@ const defaultProgram = new Program({
         new Register({ address: '102', value: '0000', comment: 'Registro 102' }),
         new Register({ address: '103', value: '0000', comment: 'Registro 103' }),
     ],
+    data_registers: [],
 });
 
 // Function to load program from localStorage
@@ -52,12 +53,14 @@ function loadSavedProgram(): Program {
             }
             return { code: o.code, operation_type };
         });
+        parsed.data_registers = parsed.data_registers.map((r: any) => new Register(r));
         return new Program({
             name: parsed.name,
             description: parsed.description,
             operations: parsed.operations,
             aux_registers: parsed.aux_registers,
-            registers: parsed.registers
+            registers: parsed.registers,
+            data_registers: parsed.data_registers,
         });
     } catch (e) {
         console.error('Failed to parse saved program:', e);

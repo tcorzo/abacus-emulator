@@ -5,16 +5,17 @@ export class ProgramImporter {
     static importFromCSV(content: string): Program {
         const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
 
-        let section: 'OPERATIONS' | 'AUX' | 'PROGRAM' | null = null;
+        let section: 'OPERATIONS' | 'AUX' | 'PROGRAM' | 'DATA' | null = null;
         const operations: Operation[] = [];
         const auxRegisters: Register[] = [];
         const registers: Register[] = [];
+        const dataRegisters: Register[] = [];
 
         for (const line of lines) {
             const [col1, col2, col3] = line.split(',').map(col => col.trim());
 
-            if (col1 === 'OPERATIONS' || col1 === 'AUX' || col1 === 'PROGRAM') {
-                section = col1 as 'OPERATIONS' | 'AUX' | 'PROGRAM';
+            if (col1 === 'OPERATIONS' || col1 === 'AUX' || col1 === 'PROGRAM' || col1 === 'DATA') {
+                section = col1 as 'OPERATIONS' | 'AUX' | 'PROGRAM' | 'DATA';
                 continue;
             }
 
@@ -51,6 +52,15 @@ export class ProgramImporter {
                     }));
                     break;
                 }
+                case 'DATA': {
+                    if (!col1) continue;
+                    dataRegisters.push(new Register({
+                        address: col1,
+                        value: col2 || '0000',
+                        comment: col3 || ''
+                    }));
+                    break;
+                }
             }
         }
 
@@ -59,7 +69,8 @@ export class ProgramImporter {
             description: '',
             operations,
             aux_registers: auxRegisters,
-            registers
+            registers,
+            data_registers: dataRegisters
         });
     }
 }
