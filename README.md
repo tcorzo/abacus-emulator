@@ -28,8 +28,10 @@ a template for your own programs.
 
 - [x] Implement basic functionality
 - [x] Add breakpoints
-- [ ] Show errors in the UI
-- [ ] Separate Data registers from Instruction registers
+- [x] Show errors in the UI
+- [x] Separate Data registers from Instruction registers
+- [x] Timeout for infinite loops
+- [x] Add tests
 - [ ] Export program to CSV
 - [x] Indicate current register in the UI
 - [ ] Flash register when it changes
