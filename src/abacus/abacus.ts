@@ -7,7 +7,12 @@ export default class AbacusEmulator {
     private _accumulator: string = '0000'; // 4 bytes
     private _current_address: string = '000'; // 3 bytes for the address
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
-    public _breakpoints: string[] = [];
+    private _breakpoints: string[] = [];
+    public createdAddresses: string[] = [];
+    public finished: boolean = false;
+    public error: string = '';
+
+    public timeout = 3000; // 3 seconds in milliseconds
 
     constructor() { }
 
@@ -34,15 +39,35 @@ export default class AbacusEmulator {
 
     public getRegister(address: string): Register {
         let register = this.registers.get(address);
+
         if (!register) {
             register = new Register({ address: address, value: '0000', comment: '' });
             this.registers.set(address, register);
+            this.createdAddresses.push(address);
         }
-        return register;
+
+        return this.registers.get(address)!;
     }
 
     public setRegister(address: string, register: Register): void {
+        if (!this.getRegister(address))
+            this.createdAddresses.push(address);
+
         this.registers.set(address, register);
+    }
+
+
+    /**
+     * Checks if a register exists at the specified address.
+     *
+     * @param address - The memory address to check for a register.
+     * @returns `true` if a register exists at the specified address, `false` otherwise.
+     */
+    public checkRegister(address: string): boolean {
+        if (!this.registers.get(address))
+            return false;
+
+        return true;
     }
 
     public addBreakpoint(address: string): void {
@@ -68,9 +93,15 @@ export default class AbacusEmulator {
         this.accumulator = '0000';
         this.current_address = program.registers[0].address;
         this.registers = new Map(program.registers.map(r => [r.address, r]));
+        this.error = '';
+        this.finished = false;
 
-        for (const auxRegister of program.aux_registers) {
-            this.setRegister(auxRegister.address, auxRegister);
+        for (const register of program.aux_registers) {
+            this.registers.set(register.address, register);
+        }
+
+        for (const register of program.data_registers) {
+            this.registers.set(register.address, register);
         }
 
         for (const operation of program.operations) {
@@ -83,14 +114,19 @@ export default class AbacusEmulator {
             throw new Error('No program loaded');
         }
 
+        const startTime = Date.now();
+        const currentTimeout = this.timeout;
+
         // Continue after current breakpoint
         if (this.hasBreakpoint(this.current_address))
             this.step();
 
-        while (true) {
-            // End of program
-            if (this.current_address === '000')
-                break;
+        while (!this.finished) {
+            // Check timeout
+            if (Date.now() - startTime > currentTimeout) {
+                this.error = `Program execution timeout ${currentTimeout}ms`;
+                return;
+            }
 
             // Breakpoint
             if (this.hasBreakpoint(this.current_address))
@@ -104,19 +140,23 @@ export default class AbacusEmulator {
         if (!this.program)
             throw new Error('No program loaded');
 
-        if (this.current_address === '000')
+        if (!this.checkRegister(this.current_address)) {
+            this.error = `Unknown address: ${this.current_address}`;
             return;
+        }
 
         const operation = this.operations.get(this.current_register.opcode);
 
         if (!operation) {
-            console.error(`Unknown operation code: ${this.current_register.opcode} at address ${this.current_address}`);
-            throw new Error("Unknown operation code");
+            this.error = `Unknown operation code: ${this.current_register.opcode} at address ${this.current_address}`;
+            return;
         }
 
         const old_address = this.current_address;
 
         operation.execute.call(this);
+        if (this.finished)
+            return;
 
         // Don't increment address if the operation is a jump
         if (old_address === this.current_address)

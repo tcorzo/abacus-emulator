@@ -34,7 +34,7 @@ Deno.test("ProgramImporter should correctly import a program from CSV", async ()
     });
 
     // Test program registers section
-    expect(program.registers.length).toBe(16);
+    expect(program.registers.length).toBe(14);
     expect(program.registers[0]).toEqual({
         address: '500',
         value: '12F5',
@@ -44,5 +44,18 @@ Deno.test("ProgramImporter should correctly import a program from CSV", async ()
         address: '50D',
         value: 'FCCC',
         comment: 'Fin de Program'
+    });
+
+    // Test data registers section
+    expect(program.data_registers.length).toBe(2);
+    expect(program.data_registers[0]).toEqual({
+        address: '150',
+        value: '0005',
+        comment: 'Valor X'
+    });
+    expect(program.data_registers[1]).toEqual({
+        address: '250',
+        value: '0003',
+        comment: 'Valor Y'
     });
 });

@@ -27,9 +27,12 @@ a template for your own programs.
 ## Roadmap
 
 - [x] Implement basic functionality
-- [ ] Add breakpoints
-- [ ] Show errors in the UI
-- [ ] Separate Data registers from Instruction registers
+- [x] Add breakpoints
+- [x] Show errors in the UI
+- [x] Separate Data registers from Instruction registers
+- [x] Timeout for infinite loops
+- [x] Add tests
 - [ ] Export program to CSV
-- [ ] Indicate current register in the UI
+- [x] Indicate current register in the UI
 - [ ] Flash register when it changes
+- [ ] Add CI checks

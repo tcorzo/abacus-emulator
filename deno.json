@@ -1,3 +1,5 @@
 {
-  "importMap": "./import_map.json"
+  "imports": {
+    "@/": "./src/"
+  }
 }
