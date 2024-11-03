@@ -2,14 +2,11 @@
 import { inject, } from 'vue';
 import UploadProgramButton from './UploadProgramButton.vue';
 
-import { provide } from 'vue';
 import EditAuxTable from './editor/EditAuxTable.vue';
 import OperationsTable from './editor/EditOperationsTable.vue';
 import ProgramTable from './editor/EditProgramTable.vue';
-import { globalState, resetProgram } from './../state';
-
-provide('globalState', inject('globalState'));
-
+import { resetProgram } from './../state';
+import DownloadButton from './editor/DownloadButton.vue';
 </script>
 
 <template>
@@ -21,6 +18,7 @@ provide('globalState', inject('globalState'));
     <ProgramTable class="program-table" />
 
     <UploadProgramButton></UploadProgramButton>
+    <DownloadButton></DownloadButton>
 
 
     <button @click="resetProgram" v-if="globalState.mode === 'edit'">
