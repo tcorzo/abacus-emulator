@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master, develop]
+    branches: [develop]
   pull_request:
     branches: [master, develop]
 
@@ -17,7 +17,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-          cache: "deno"
 
       - name: Install dependencies
         run: deno install
