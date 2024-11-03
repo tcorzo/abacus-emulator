@@ -11,11 +11,14 @@ Deno.
     registers.
 - 📤 **CSV Import**: Import your programs from CSV
 
-<!-- - 🏷️ **Label Support**: Support for `#` labels as jump targets in your code. -->
+<!-- - 🏷️ **Label Support**: Support for `#`
+labels as jump targets in your code. -->
 
-<!-- - 🌈 **Editor Enhancements**: Syntax highlighting and autocomplete for operations, labels, AUX, and DATA registers. -->
+<!-- - 🌈 **Editor Enhancements**: Syntax highlighting
+and autocomplete for operations, labels, AUX, and DATA registers. -->
 
-<!-- - 📤 **Spreadsheet Import/Export**: Import/Export your programs from/to .csv, .xls, .xlsx, .ods -->
+<!-- - 📤 **Spreadsheet Import/Export**:
+Import/Export your programs from/to .csv, .xls, .xlsx, .ods -->
 
 ## Setup Development Environment 🛠️
 
