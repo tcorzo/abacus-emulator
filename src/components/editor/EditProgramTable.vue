@@ -21,7 +21,6 @@ const addRegister = () => {
     <table>
       <thead>
         <tr>
-          <th></th>
           <th>0x</th>
           <th>Valor</th>
           <th>Comentario</th>
@@ -29,13 +28,6 @@ const addRegister = () => {
       </thead>
       <tbody>
         <tr v-for="(register, index) in globalState.program.registers" :key="index">
-          <td v-if="globalState.emulator.hasBreakpoint(register.address)">
-            <button @click="globalState.emulator.removeBreakpoint(register.address)">🔴</button>
-          </td>
-          <td v-else>
-            <button @click="globalState.emulator.addBreakpoint(register.address)"></button>
-          </td>
-
           <td>
             <input v-if="globalState.mode === 'edit'" v-model="register.address" />
             <span v-else>{{ register.address }}</span>
