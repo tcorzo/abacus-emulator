@@ -1,0 +1,22 @@
+name: Branch Protection
+
+on:
+  pull_request:
+    branches-ignore: [master]
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          if [[ ${GITHUB_BASE_REF} != develop ]]
+          then
+            echo "Error: Pull request must be to 'develop' branch"
+            exit 1
+          fi
+          if [[ ${GITHUB_HEAD_REF} == master || ${GITHUB_HEAD_REF} == develop ]]
+          then
+            echo "Error: Pull request must not come from 'master' or 'develop' branch"
+            exit 1
+          fi
