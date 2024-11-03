@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue';
-import { ProgramImporter } from './../abacus/importer';
-import { GlobalState } from '../state';
+import { ProgramImporter } from '../../abacus/importer';
+import { GlobalState } from '../../state';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 

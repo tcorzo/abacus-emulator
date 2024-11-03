@@ -42,7 +42,6 @@ const addRegister = () => {
           </td>
         </tr>
         <tr v-if="globalState.mode === 'edit'">
-          <td></td>
           <td><input v-model="newReg.address" placeholder="Address" /></td>
           <td><input v-model="newReg.value" placeholder="Initial Value" /></td>
           <td><input v-model="newReg.comment" placeholder="Description" /></td>

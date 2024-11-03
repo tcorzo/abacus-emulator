@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { inject, } from 'vue';
-import UploadProgramButton from './UploadProgramButton.vue';
+import UploadProgramButton from './editor/UploadProgramButton.vue';
 
 import EditAuxTable from './editor/EditAuxTable.vue';
 import OperationsTable from './editor/EditOperationsTable.vue';
@@ -20,8 +19,7 @@ import DownloadButton from './editor/DownloadButton.vue';
     <UploadProgramButton></UploadProgramButton>
     <DownloadButton></DownloadButton>
 
-
-    <button @click="resetProgram" v-if="globalState.mode === 'edit'">
+    <button @click="resetProgram">
       Reset Program 🔄
     </button>
   </div>
