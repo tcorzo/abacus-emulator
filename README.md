@@ -9,7 +9,7 @@ Deno.
 - ⏲️ **Timeouts**: Prevent infinite loops with built-in timeouts.
 - 📊 **Data Registers**: Clean separation between data and instruction
     registers.
-- 📤 **CSV Import**: Import your programs from CSV
+- 📤 **CSV Import/Export**: Import and export your programs in CSV
 
 <!-- - 🏷️ **Label Support**: Support for `#`
 labels as jump targets in your code. -->
@@ -60,7 +60,7 @@ a template for your own programs.
 
 - [x] Emulator operations
 - [x] CSV import
-- [ ] CSV export
+- [x] CSV export
 
 ### UI
 
@@ -83,7 +83,7 @@ a template for your own programs.
 ### Import/Export
 
 - [x] Import program from CSV
-- [ ] Export program to CSV
+- [x] Export program to CSV
     - [ ] Allow enabling/disabling data registers
 - [ ] Export program to (.xls, .xlsx, .ods) with nice formatting
     - [ ] Allow enabling/disabling data registers
