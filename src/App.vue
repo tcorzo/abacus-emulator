@@ -15,7 +15,7 @@ provide('globalState', globalState);
 
 <template>
   <div id="app" class="h-screen flex flex-col">
-    <Toolbar>
+    <Toolbar class="!rounded-none !rounded-b-lg">
       <template #start>
         <Button :label="globalState.mode === 'edit' ? 'Ejecutar' : 'Editar'"
           :icon="`pi ${globalState.mode === 'edit' ? 'pi-play' : 'pi-pen-to-square'}`" @click="toggleMode" />
