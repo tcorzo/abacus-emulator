@@ -4,6 +4,7 @@ import Lara from "@primevue/themes/lara";
 import App from "./App.vue";
 
 import "./assets/style.css";
+import 'primeicons/primeicons.css'
 
 const app = createApp(App);
 

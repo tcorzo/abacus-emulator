@@ -7,24 +7,23 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Asdf: typeof import('./src/components/editor/Asdf.vue')['default']
     AuxRegisters: typeof import('./src/components/emulator/AuxRegisters.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     Column: typeof import('primevue/column')['default']
     DataRegisters: typeof import('./src/components/emulator/DataRegisters.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
-    DownloadButton: typeof import('./src/components/editor/DownloadButton.vue')['default']
-    EditAuxTable: typeof import('./src/components/editor/EditAuxTable.vue')['default']
+    DownloadButton: typeof import('./src/components/DownloadButton.vue')['default']
     EditOperationsTable: typeof import('./src/components/editor/EditOperationsTable.vue')['default']
     Editor: typeof import('./src/components/Editor.vue')['default']
-    EditProgramTable: typeof import('./src/components/editor/EditProgramTable.vue')['default']
     Emulator: typeof import('./src/components/Emulator.vue')['default']
     Error: typeof import('./src/components/emulator/Error.vue')['default']
-    InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     ProgramRegisters: typeof import('./src/components/emulator/ProgramRegisters.vue')['default']
     RegisterTable: typeof import('./src/components/editor/RegisterTable.vue')['default']
-    UploadProgramButton: typeof import('./src/components/editor/UploadProgramButton.vue')['default']
+    ResetButton: typeof import('./src/components/ResetButton.vue')['default']
+    SplitButton: typeof import('primevue/splitbutton')['default']
+    Toolbar: typeof import('primevue/toolbar')['default']
+    UploadButton: typeof import('./src/components/UploadButton.vue')['default']
   }
 }

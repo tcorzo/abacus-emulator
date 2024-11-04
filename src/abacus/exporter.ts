@@ -1,7 +1,40 @@
 import { Program } from "@/abacus/program.ts";
 
+export interface ExportFormat {
+    name: string;
+    extension: string,
+}
+
+const CSV: ExportFormat = {
+    name: 'CSV',
+    extension: 'csv',
+};
+
+export const ExportFormats = {
+    CSV,
+    // XLS,
+    // XSLX,
+    // ODS,
+}
+
 export class ProgramExporter {
-    static exportToCSV(program: Program): string {
+
+    static export(program: Program, format: ExportFormat): string {
+        switch (format) {
+            case CSV:
+                return this.exportToCSV(program);
+            // case XLS:
+            //     return this.exportToXLS(program);
+            // case XSLX:
+            //     return this.exportToXLSX(program);
+            // case ODS:
+            //     return this.exportToods(program);
+            default:
+                throw new Error('Unsupported export format');
+        }
+    }
+
+    private static exportToCSV(program: Program): string {
         const lines: string[] = [];
 
         // Export Operations section

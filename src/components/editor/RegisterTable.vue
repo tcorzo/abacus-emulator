@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Register } from '@/abacus/program';
 
-const onCellEditComplete = (event) => {
+const onCellEditComplete = (event: any) => {
     let { data, newValue, field } = event;
     data[field] = newValue;
 };
@@ -22,16 +22,17 @@ const props = defineProps<{
     <Card>
         <template #title>{{ props.title }}</template>
         <template #content>
-            <DataTable :value="props.registers" editMode="cell" @cell-edit-complete="onCellEditComplete" :pt="{
-                table: { style: 'min-width: 50rem' },
-                column: {
-                    bodycell: ({ state }) => ({
-                        class: [{ '!py-0': state['d_editing'] }]
-                    })
-                }
-            }">
+            <DataTable scrollable scrollHeight="400px" :value="props.registers" editMode="cell"
+                @cell-edit-complete="onCellEditComplete" :pt="{
+                    table: { style: 'min-width: 25rem' },
+                    column: {
+                        bodycell: ({ state }) => ({
+                            class: [{ '!py-0': state['d_editing'] }]
+                        })
+                    }
+                }">
                 <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"
-                    style="width: 25%">
+                    style="width: 33%">
                     <template #body="{ data, field }">
                         {{ data[field] }}
                     </template>

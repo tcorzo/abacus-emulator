@@ -9,6 +9,7 @@
     "npm:@primevue/themes@^4.2.1": "4.2.1",
     "npm:@vitejs/plugin-vue@^5.1.4": "5.1.4_vite@5.4.9_vue@3.5.12__typescript@5.6.3_typescript@5.6.3",
     "npm:gh-pages@^6.2.0": "6.2.0",
+    "npm:primeicons@7": "7.0.0",
     "npm:primevue@^4.2.1": "4.2.1_vue@3.5.12__typescript@5.6.3_typescript@5.6.3",
     "npm:typescript@^5.5.3": "5.6.3",
     "npm:unplugin-vue-components@~0.27.4": "0.27.4_vue@3.5.12__typescript@5.6.3_typescript@5.6.3",
@@ -720,6 +721,9 @@
         "source-map-js"
       ]
     },
+    "primeicons@7.0.0": {
+      "integrity": "sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw=="
+    },
     "primevue@4.2.1_vue@3.5.12__typescript@5.6.3_typescript@5.6.3": {
       "integrity": "sha512-cU9ZQVq9fitsQEIrfGeIl7xELBn61JCMxWkzcS9dkr165g29AvUrUNS9ufs1t2NoMJzE8VllwzweF/tSFAr2cw==",
       "dependencies": [
@@ -878,6 +882,7 @@
         "npm:@primevue/themes@^4.2.1",
         "npm:@vitejs/plugin-vue@^5.1.4",
         "npm:gh-pages@^6.2.0",
+        "npm:primeicons@7",
         "npm:primevue@^4.2.1",
         "npm:typescript@^5.5.3",
         "npm:unplugin-vue-components@~0.27.4",
