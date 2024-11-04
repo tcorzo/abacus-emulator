@@ -4,6 +4,9 @@ import { globalState, toggleMode } from './state';
 
 import Emulator from './components/Emulator.vue';
 import Editor from './components/Editor.vue';
+
+import ResetButton from './components/ResetButton.vue';
+import UploadButton from './components/UploadButton.vue';
 import DownloadButton from './components/DownloadButton.vue';
 
 provide('globalState', globalState);
