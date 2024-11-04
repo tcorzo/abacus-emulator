@@ -20,7 +20,7 @@ function saveProgram() {
 </script>
 
 <template>
-    <button @click="saveProgram">
+    <Button @click="saveProgram">
         Save Program 💾
-    </button>
+    </Button>
 </template>

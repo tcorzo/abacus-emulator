@@ -36,8 +36,8 @@ provide('emulator', emulator);
           </div>
         </div>
         <div id="emulator-actions">
-          <button @click="emulator.step">Step</button>
-          <button @click="emulator.run">Run ▶️</button>
+          <Button @click="emulator.step()">Step</Button>
+          <Button @click="emulator.run()">Run ▶️</Button>
         </div>
         <Error v-if="emulator.error"></Error>
       </div>

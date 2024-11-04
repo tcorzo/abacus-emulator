@@ -27,10 +27,10 @@ const registers = Array.from(emulator.registers.values())
                 <tr v-for="register in registers"
                     :class="{ 'current-register': register.address === emulator.current_address }">
                     <td v-if="emulator.hasBreakpoint(register.address)">
-                        <button @click="emulator.removeBreakpoint(register.address)">🔴</button>
+                        <Button @click="emulator.removeBreakpoint(register.address)">🔴</Button>
                     </td>
                     <td v-else>
-                        <button @click="emulator.addBreakpoint(register.address)"></button>
+                        <Button @click="emulator.addBreakpoint(register.address)"></Button>
                     </td>
                     <td>
                         <input v-if="globalState.mode === 'edit'" v-model="register.address" />

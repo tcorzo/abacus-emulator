@@ -30,8 +30,8 @@ const handleFileUpload = (event: Event) => {
 <template>
   <div class="file-upload">
     <input type="file" ref="fileInput" accept=".csv" style="display: none" @change="handleFileUpload">
-    <button @click="triggerFileInput" class="upload-button">
+    <Button @click="triggerFileInput" class="upload-Button">
       Cargar program 📁
-    </button>
+    </Button>
   </div>
 </template>
