@@ -19,10 +19,10 @@ const props = defineProps<{
 </script>
 
 <template>
-    <Card>
+    <Card class="flex-initial">
         <template #title>{{ props.title }}</template>
         <template #content>
-            <DataTable scrollable scrollHeight="400px" :value="props.registers" editMode="cell"
+            <DataTable scrollable scrollHeight="75vh" :value="props.registers" editMode="cell"
                 @cell-edit-complete="onCellEditComplete" :pt="{
                     table: { style: 'min-width: 25rem' },
                     column: {
@@ -30,7 +30,7 @@ const props = defineProps<{
                             class: [{ '!py-0': state['d_editing'] }]
                         })
                     }
-                }">
+                }" style="height: 100%;">
                 <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"
                     style="width: 33%">
                     <template #body="{ data, field }">

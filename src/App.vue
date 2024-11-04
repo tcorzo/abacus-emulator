@@ -11,8 +11,7 @@ provide('globalState', globalState);
 </script>
 
 <template>
-  <div id="app">
-
+  <div id="app" class="h-screen flex flex-col">
     <Toolbar>
       <template #start>
         <Button :label="globalState.mode === 'edit' ? 'Ejecutar' : 'Editar'"
