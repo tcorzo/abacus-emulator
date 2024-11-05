@@ -3,9 +3,9 @@ import { inject, provide, reactive } from 'vue';
 import { GlobalState } from './../state';
 import ProgramRegisters from './emulator/ProgramRegisters.vue';
 import AuxRegisters from './emulator/AuxRegisters.vue';
+import DataRegisters from './emulator/DataRegisters.vue';
 import AbacusEmulator from '../abacus/abacus';
 import Error from './emulator/Error.vue';
-import DataRegisters from './emulator/DataRegisters.vue';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 
@@ -52,8 +52,12 @@ provide('emulator', emulator);
 #emulator {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 2rem;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
 #emulator-controls {

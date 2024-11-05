@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import OperationsTable from './editor/OperationsTable.vue';
-import RegisterTable from './editor/RegisterTable.vue';
+import RegisterTable from './RegisterTable.vue';
 import { inject } from 'vue';
 import { GlobalState } from '../state';
 
@@ -10,9 +10,9 @@ const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 <template>
   <div id="editor">
     <OperationsTable />
-    <RegisterTable :title="'Registros Auxiliares'" :registers="globalState.program.aux_registers" />
-    <RegisterTable :title="'Program'" :registers="globalState.program.registers" />
-    <RegisterTable :title="'Data'" :registers="globalState.program.data_registers" />
+    <RegisterTable :editable="true" :title="'Registros Auxiliares'" :registers="globalState.program.aux_registers" />
+    <RegisterTable :editable="true" :title="'Program'" :registers="globalState.program.registers" />
+    <RegisterTable :editable="true" :title="'Data'" :registers="globalState.program.data_registers" />
   </div>
 </template>
 

@@ -14,15 +14,18 @@ const columns = [
 
 const props = defineProps<{
     title: string
-    registers: Register[]
+    registers: Register[],
+    editable: boolean
 }>()
+
+const editMode = props.editable ? 'cell' : undefined
 </script>
 
 <template>
     <Card class="flex-initial">
         <template #title>{{ props.title }}</template>
         <template #content>
-            <DataTable scrollable scrollHeight="75vh" :value="props.registers" editMode="cell"
+            <DataTable scrollable scrollHeight="75vh" :value="props.registers" :editMode="editMode"
                 @cell-edit-complete="onCellEditComplete" :pt="{
                     table: { style: 'min-width: 25rem' },
                     column: {

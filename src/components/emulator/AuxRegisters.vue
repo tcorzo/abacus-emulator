@@ -2,6 +2,7 @@
 import { inject, } from 'vue';
 import { GlobalState } from '../../state';
 import AbacusEmulator from '@/abacus/abacus';
+import RegisterTable from '../RegisterTable.vue';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
@@ -12,35 +13,7 @@ const registers = Array.from(emulator.registers.values())
 </script>
 
 <template>
-    <div>
-        <h3>Registros Auxiliares</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>0x</th>
-                    <th>Valor</th>
-                    <th>Comentario</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="register in registers"
-                    :class="{ 'current-register': register.address === emulator.current_address }">
-                    <td>
-                        <input v-if="globalState.mode === 'edit'" v-model="register.address" />
-                        <span v-else>{{ register.address }}</span>
-                    </td>
-                    <td>
-                        <input v-if="globalState.mode === 'edit'" v-model="register.value" />
-                        <span v-else>{{ register.value }}</span>
-                    </td>
-                    <td>
-                        <input v-if="globalState.mode === 'edit'" v-model="register.comment" />
-                        <span v-else>{{ register.comment }}</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <RegisterTable :editable="false" :title="'Registros Auxiliares'" :registers="registers" />
 </template>
 
 <style scoped>
