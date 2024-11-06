@@ -111,6 +111,10 @@ export default class AbacusEmulator {
         }
     }
 
+    public reset(): void {
+        this.loadProgram(this.program!);
+    }
+
     public run() {
         if (!this.program) {
             throw new Error('No program loaded');

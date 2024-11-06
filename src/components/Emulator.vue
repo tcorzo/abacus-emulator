@@ -42,11 +42,13 @@ provide('emulator', emulator);
         <div class="flex pb-4">
           <Error v-if="emulator.error"></Error>
         </div>
-        <div class="flex gap-4 mt-1">
+        <div class="flex gap-4 mt-1 items-center">
+          <Button icon="pi pi-refresh" @click="emulator.reset()" severity="secondary" outlined size="small"
+            class="w-min h-min" />
           <Button icon="pi pi-angle-right" label="Step" @click="emulator.step()" :disabled="emulator.finished"
-            severity="secondary" outlined class="w-full" />
+            severity="secondary" outlined class="w-max" />
           <Button icon="pi pi-angle-double-right" label="Run" :disabled="emulator.finished" @click="emulator.run()"
-            class="w-full" />
+            class="w-max" />
         </div>
       </template>
     </Card>
