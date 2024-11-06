@@ -31,8 +31,13 @@ provide('globalState', globalState);
       </template>
     </Toolbar>
 
-
     <Editor v-if="globalState.mode === 'edit'"></Editor>
     <Emulator v-if="globalState.mode === 'run'"></Emulator>
+
+    <div class="fixed bottom-5 right-5">
+      <a href="https://github.com/tcorzo/abacus-emulator" target="_blank" rel="noopener noreferrer">
+        <i class="pi pi-github !text-4xl"></i>
+      </a>
+    </div>
   </div>
 </template>
