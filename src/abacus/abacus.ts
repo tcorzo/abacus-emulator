@@ -6,9 +6,11 @@ export default class AbacusEmulator {
     private operations: Map<string, OperationType> = new Map();
     private _accumulator: string = '0000'; // 4 bytes
     private _current_address: string = '000'; // 3 bytes for the address
+
     public registers: Map<string, Register> = new Map(); // 3 bytes for the address
-    private _breakpoints: string[] = [];
     public createdAddresses: string[] = [];
+
+    private _breakpoints: string[] = [];
     public finished: boolean = false;
     public error: string = '';
 
@@ -107,6 +109,10 @@ export default class AbacusEmulator {
         for (const operation of program.operations) {
             this.operations.set(operation.code, operation.operation_type);
         }
+    }
+
+    public reset(): void {
+        this.loadProgram(this.program!);
     }
 
     public run() {

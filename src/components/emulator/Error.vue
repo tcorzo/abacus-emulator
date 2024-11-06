@@ -6,8 +6,9 @@ const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
 </script>
 
 <template>
-    <div class="error-msg">
-        <p>🛑 {{ emulator.error }}</p>
+    <div class="error-msg flex items-center gap-2 text-wrap w-full">
+        <i class="pi pi-thumbs-down-fill"></i>
+        <p>{{ emulator.error }}</p>
     </div>
 </template>
 

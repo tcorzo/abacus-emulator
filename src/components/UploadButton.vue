@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue';
-import { ProgramImporter } from './../abacus/importer';
+import { ProgramImporter } from '../abacus/importer';
 import { GlobalState } from '../state';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
@@ -30,8 +30,6 @@ const handleFileUpload = (event: Event) => {
 <template>
   <div class="file-upload">
     <input type="file" ref="fileInput" accept=".csv" style="display: none" @change="handleFileUpload">
-    <button @click="triggerFileInput" class="upload-button">
-      Cargar program 📁
-    </button>
+    <Button icon="pi pi-upload" @click="triggerFileInput" severity="secondary" text />
   </div>
 </template>

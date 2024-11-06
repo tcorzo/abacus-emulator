@@ -5,57 +5,39 @@ import { globalState, toggleMode } from './state';
 import Emulator from './components/Emulator.vue';
 import Editor from './components/Editor.vue';
 
+import ResetButton from './components/ResetButton.vue';
+import UploadButton from './components/UploadButton.vue';
+import DownloadButton from './components/DownloadButton.vue';
+
 provide('globalState', globalState);
 
 </script>
 
 <template>
-  <div id="app">
-    <button @click="toggleMode" class="mode-toggle">
-      {{ globalState.mode === 'edit' ? 'Ejecutar ▶️' : 'Editar ✏️' }}
-    </button>
+  <div id="app" class="h-screen flex flex-col">
+    <Toolbar class="!rounded-none !rounded-b-lg">
+      <template #start>
+        <div class="flex gap-2">
+          <Button :label="globalState.mode === 'edit' ? 'Ejecutar' : 'Editar'"
+            :icon="`pi ${globalState.mode === 'edit' ? 'pi-play' : 'pi-pen-to-square'}`" @click="toggleMode" />
+          <ResetButton />
+          <UploadButton />
+        </div>
+      </template>
+
+
+      <template #end>
+        <DownloadButton />
+      </template>
+    </Toolbar>
 
     <Editor v-if="globalState.mode === 'edit'"></Editor>
     <Emulator v-if="globalState.mode === 'run'"></Emulator>
+
+    <div class="fixed bottom-5 right-5">
+      <a href="https://github.com/tcorzo/abacus-emulator" target="_blank" rel="noopener noreferrer">
+        <i class="pi pi-github !text-4xl"></i>
+      </a>
+    </div>
   </div>
 </template>
-
-<style>
-#app {
-  padding: 20px;
-}
-
-.mode-toggle {
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.tables-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.aux-table,
-.operations-table,
-.program-table {
-  flex: 1;
-  margin: 0 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center;
-}
-</style>

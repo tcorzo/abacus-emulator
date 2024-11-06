@@ -2,49 +2,22 @@
 import { inject, computed } from 'vue';
 import { GlobalState } from '../../state';
 import AbacusEmulator from '@/abacus/abacus';
+import RegisterTable from '../RegisterTable.vue';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
 
-const dataAddresses = globalState.program.data_registers.map((r) => r.address);
+const dataAddresses = computed(() => globalState.program.data_registers.map((r) => r.address));
 
 const registers = computed(() => {
-    const combinedAddresses = [...dataAddresses, ...emulator.createdAddresses];
+    const combinedAddresses = [...dataAddresses.value, ...emulator.createdAddresses];
     return Array.from(emulator.registers.values())
         .filter((r) => combinedAddresses.includes(r.address));
 });
 </script>
 
 <template>
-    <div>
-        <h3>Data</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>0x</th>
-                    <th>Valor</th>
-                    <th>Comentario</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="register in registers"
-                    :class="{ 'current-register': register.address === emulator.current_address }">
-                    <td>
-                        <input v-if="globalState.mode === 'edit'" v-model="register.address" />
-                        <span v-else>{{ register.address }}</span>
-                    </td>
-                    <td>
-                        <input v-if="globalState.mode === 'edit'" v-model="register.value" />
-                        <span v-else>{{ register.value }}</span>
-                    </td>
-                    <td>
-                        <input v-if="globalState.mode === 'edit'" v-model="register.comment" />
-                        <span v-else>{{ register.comment }}</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <RegisterTable :editable="false" :title="'Data'" :registers="registers" />
 </template>
 
 <style scoped>

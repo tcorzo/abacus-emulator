@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { inject, provide, reactive } from 'vue';
+import { inject, provide, reactive, watchEffect } from 'vue';
 import { GlobalState } from './../state';
 import ProgramRegisters from './emulator/ProgramRegisters.vue';
 import AuxRegisters from './emulator/AuxRegisters.vue';
+import DataRegisters from './emulator/DataRegisters.vue';
 import AbacusEmulator from '../abacus/abacus';
 import Error from './emulator/Error.vue';
-import DataRegisters from './emulator/DataRegisters.vue';
 
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 
 const emulator = reactive(new AbacusEmulator());
 
-emulator.loadProgram(globalState.program.clone());
+watchEffect(() => {
+  emulator.loadProgram(globalState.program.clone());
+})
 
 provide('emulator', emulator);
 </script>
@@ -22,27 +24,34 @@ provide('emulator', emulator);
     <ProgramRegisters></ProgramRegisters>
     <DataRegisters></DataRegisters>
 
-    <div>
 
-      <div id="emulator-controls">
-        <div id="emulator-status">
-          <div>
-            <h4>Acumulador</h4>
-            <p>{{ emulator.accumulator }}</p>
-          </div>
-          <div>
-            <h4>Dirección actual</h4>
-            <p>{{ emulator.current_address }}</p>
-          </div>
+    <Card class="flex-initial w-1/6">
+      <template #content>
+        <div class="flex pb-4 justify-around">
+          <IconField class="m-2 w-24">
+            <InputIcon class="pi pi-inbox" />
+            <InputText class="w-24 !bg-transparent" v-model="emulator.accumulator" disabled />
+          </IconField>
+          <IconField class="m-2 w-24">
+            <InputIcon class="pi pi-database" />
+            <InputText class="w-24 !bg-transparent" v-model="emulator.current_address" disabled />
+          </IconField>
         </div>
-        <div id="emulator-actions">
-          <button @click="emulator.step">Step</button>
-          <button @click="emulator.run">Run ▶️</button>
+      </template>
+      <template #footer>
+        <div class="flex pb-4">
+          <Error v-if="emulator.error"></Error>
         </div>
-        <Error v-if="emulator.error"></Error>
-      </div>
-
-    </div>
+        <div class="flex gap-4 mt-1 items-center">
+          <Button icon="pi pi-refresh" @click="emulator.reset()" severity="secondary" outlined size="small"
+            class="w-min h-min" />
+          <Button icon="pi pi-angle-right" label="Step" @click="emulator.step()" :disabled="emulator.finished"
+            severity="secondary" outlined class="w-max" />
+          <Button icon="pi pi-angle-double-right" label="Run" :disabled="emulator.finished" @click="emulator.run()"
+            class="w-max" />
+        </div>
+      </template>
+    </Card>
 
   </div>
 
@@ -52,8 +61,12 @@ provide('emulator', emulator);
 #emulator {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 2rem;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
 #emulator-controls {

@@ -1,31 +1,18 @@
 <script setup lang="ts">
-import { inject, } from 'vue';
-import UploadProgramButton from './UploadProgramButton.vue';
+import OperationsTable from './editor/OperationsTable.vue';
+import RegisterTable from './RegisterTable.vue';
+import { inject } from 'vue';
+import { GlobalState } from '../state';
 
-import { provide } from 'vue';
-import EditAuxTable from './editor/EditAuxTable.vue';
-import OperationsTable from './editor/EditOperationsTable.vue';
-import ProgramTable from './editor/EditProgramTable.vue';
-import { globalState, resetProgram } from './../state';
-
-provide('globalState', inject('globalState'));
-
+const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 </script>
 
 <template>
   <div id="editor">
-    <div class="tables-container">
-      <EditAuxTable class="aux-table" />
-      <OperationsTable class="operations-table" />
-    </div>
-    <ProgramTable class="program-table" />
-
-    <UploadProgramButton></UploadProgramButton>
-
-
-    <button @click="resetProgram" v-if="globalState.mode === 'edit'">
-      Reset Program 🔄
-    </button>
+    <OperationsTable />
+    <RegisterTable :editable="true" :title="'Registros Auxiliares'" :registers="globalState.program.aux_registers" />
+    <RegisterTable :editable="true" :title="'Program'" :registers="globalState.program.registers" />
+    <RegisterTable :editable="true" :title="'Data'" :registers="globalState.program.data_registers" />
   </div>
 </template>
 
@@ -34,5 +21,10 @@ provide('globalState', inject('globalState'));
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: space-around;
+  padding: 2rem;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 </style>
