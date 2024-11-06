@@ -12,6 +12,7 @@ declare module 'vue' {
     Card: typeof import('primevue/card')['default']
     Column: typeof import('primevue/column')['default']
     ConfirmPopup: typeof import('primevue/confirmpopup')['default']
+    ContextMenu: typeof import('primevue/contextmenu')['default']
     DataRegisters: typeof import('./src/components/emulator/DataRegisters.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
     DownloadButton: typeof import('./src/components/DownloadButton.vue')['default']
