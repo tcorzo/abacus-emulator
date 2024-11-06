@@ -7,10 +7,10 @@ import RegisterTable from '../RegisterTable.vue';
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
 
-const dataAddresses = globalState.program.data_registers.map((r) => r.address);
+const dataAddresses = computed(() => globalState.program.data_registers.map((r) => r.address));
 
 const registers = computed(() => {
-    const combinedAddresses = [...dataAddresses, ...emulator.createdAddresses];
+    const combinedAddresses = [...dataAddresses.value, ...emulator.createdAddresses];
     return Array.from(emulator.registers.values())
         .filter((r) => combinedAddresses.includes(r.address));
 });

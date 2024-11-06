@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, provide, reactive } from 'vue';
+import { inject, provide, reactive, watchEffect } from 'vue';
 import { GlobalState } from './../state';
 import ProgramRegisters from './emulator/ProgramRegisters.vue';
 import AuxRegisters from './emulator/AuxRegisters.vue';
@@ -11,7 +11,9 @@ const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 
 const emulator = reactive(new AbacusEmulator());
 
-emulator.loadProgram(globalState.program.clone());
+watchEffect(() => {
+  emulator.loadProgram(globalState.program.clone());
+})
 
 provide('emulator', emulator);
 </script>

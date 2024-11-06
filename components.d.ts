@@ -23,7 +23,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     OperationsTable: typeof import('./src/components/editor/OperationsTable.vue')['default']
     ProgramRegisters: typeof import('./src/components/emulator/ProgramRegisters.vue')['default']
-    RegisterTable: typeof import('./src/components/editor/RegisterTable.vue')['default']
+    RegisterTable: typeof import('./src/components/RegisterTable.vue')['default']
     ResetButton: typeof import('./src/components/ResetButton.vue')['default']
     SplitButton: typeof import('primevue/splitbutton')['default']
     Toolbar: typeof import('primevue/toolbar')['default']

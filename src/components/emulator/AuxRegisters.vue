@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, } from 'vue';
+import { computed, inject, } from 'vue';
 import { GlobalState } from '../../state';
 import AbacusEmulator from '@/abacus/abacus';
 import RegisterTable from '../RegisterTable.vue';
@@ -7,9 +7,12 @@ import RegisterTable from '../RegisterTable.vue';
 const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 const emulator: AbacusEmulator = inject('emulator') || {} as AbacusEmulator;
 
-const programAddresses = globalState.program.aux_registers.map((r) => r.address)
-const registers = Array.from(emulator.registers.values())
-    .filter((r) => programAddresses.includes(r.address));
+const auxAddresses = computed(() => globalState.program.aux_registers.map((r) => r.address))
+
+const registers = computed(
+    () => Array.from(emulator.registers.values())
+        .filter((r) => auxAddresses.value.includes(r.address))
+);
 </script>
 
 <template>
