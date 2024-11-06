@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, onMounted, computed } from 'vue';
+import { inject, computed } from 'vue';
 import { GlobalState } from './../../state';
 import AbacusEmulator from '@/abacus/abacus';
 

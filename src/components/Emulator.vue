@@ -24,27 +24,32 @@ provide('emulator', emulator);
     <ProgramRegisters></ProgramRegisters>
     <DataRegisters></DataRegisters>
 
-    <div>
 
-      <div id="emulator-controls">
-        <div id="emulator-status">
-          <div>
-            <h4>Acumulador</h4>
-            <p>{{ emulator.accumulator }}</p>
-          </div>
-          <div>
-            <h4>Dirección actual</h4>
-            <p>{{ emulator.current_address }}</p>
-          </div>
+    <Card class="flex-initial w-1/6">
+      <template #content>
+        <div class="flex pb-4 justify-around">
+          <IconField class="m-2 w-24">
+            <InputIcon class="pi pi-inbox" />
+            <InputText class="w-24 !bg-transparent" v-model="emulator.accumulator" disabled />
+          </IconField>
+          <IconField class="m-2 w-24">
+            <InputIcon class="pi pi-database" />
+            <InputText class="w-24 !bg-transparent" v-model="emulator.current_address" disabled />
+          </IconField>
         </div>
-        <div id="emulator-actions">
-          <Button @click="emulator.step()">Step</Button>
-          <Button @click="emulator.run()">Run ▶️</Button>
+      </template>
+      <template #footer>
+        <div class="flex pb-4">
+          <Error v-if="emulator.error"></Error>
         </div>
-        <Error v-if="emulator.error"></Error>
-      </div>
-
-    </div>
+        <div class="flex gap-4 mt-1">
+          <Button icon="pi pi-angle-right" label="Step" @click="emulator.step()" :disabled="emulator.finished"
+            severity="secondary" outlined class="w-full" />
+          <Button icon="pi pi-angle-double-right" label="Run" :disabled="emulator.finished" @click="emulator.run()"
+            class="w-full" />
+        </div>
+      </template>
+    </Card>
 
   </div>
 

@@ -20,6 +20,8 @@ declare module 'vue' {
     Editor: typeof import('./src/components/Editor.vue')['default']
     Emulator: typeof import('./src/components/Emulator.vue')['default']
     Error: typeof import('./src/components/emulator/Error.vue')['default']
+    IconField: typeof import('primevue/iconfield')['default']
+    InputIcon: typeof import('primevue/inputicon')['default']
     InputText: typeof import('primevue/inputtext')['default']
     OperationsTable: typeof import('./src/components/editor/OperationsTable.vue')['default']
     ProgramRegisters: typeof import('./src/components/emulator/ProgramRegisters.vue')['default']
