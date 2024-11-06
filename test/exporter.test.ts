@@ -1,5 +1,5 @@
 import { expect } from "jsr:@std/expect";
-import { ProgramExporter } from "@/abacus/exporter.ts";
+import { ExportFormats, ProgramExporter } from "@/abacus/exporter.ts";
 import { Program, Register } from "@/abacus/program.ts";
 import { OperationTypes } from "@/abacus/operation_type.ts";
 
@@ -55,7 +55,7 @@ Deno.test("ProgramExporter should export a program to CSV format", () => {
         'ADDR,VALUE,COMMENT\n' +
         '201,0000,Result';
 
-    const result = ProgramExporter.exportToCSV(program);
+    const result = ProgramExporter.export(program, ExportFormats.CSV);
     expect(result).toEqual(expected);
 });
 
@@ -82,6 +82,6 @@ Deno.test("ProgramExporter should handle empty program sections", () => {
         'DATA,,\n' +
         'ADDR,VALUE,COMMENT';
 
-    const result = ProgramExporter.exportToCSV(program);
+    const result = ProgramExporter.export(program, ExportFormats.CSV);
     expect(result).toEqual(expected);
 });
