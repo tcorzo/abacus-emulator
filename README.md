@@ -67,8 +67,10 @@ a template for your own programs.
 - [x] Indicate current register in the UI
 - [x] Show execution errors in the UI
 - [ ] Flash register when it's value changes
-- [ ] Address-agnostic register insert/delete
-- [ ] Update starting address in the UI (propagates to all addresses)
+- [x] Register insert/delete
+- [ ] Auto-scroll to the current register
+- [ ] Register re-addressing (when moving registers around)
+- [ ] Update starting address (propagates to all addresses)
 - [ ] Improve editor UX
     - [ ] Add syntax highlighting for operations
     - [ ] Add autocomplete for `#` labels
