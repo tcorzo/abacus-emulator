@@ -10,9 +10,9 @@ const globalState: GlobalState = inject('globalState') || {} as GlobalState;
 <template>
   <div id="editor">
     <OperationsTable />
-    <RegisterTable :editable="true" :title="'Registros Auxiliares'" :registers="globalState.program.aux_registers" />
-    <RegisterTable :editable="true" :title="'Program'" :registers="globalState.program.registers" />
-    <RegisterTable :editable="true" :title="'Data'" :registers="globalState.program.data_registers" />
+    <RegisterTable editable :title="'Registros Auxiliares'" :registers="globalState.program.aux_registers" />
+    <RegisterTable editable :title="'Program'" :registers="globalState.program.registers" />
+    <RegisterTable editable :title="'Data'" :registers="globalState.program.data_registers" />
   </div>
 </template>
 

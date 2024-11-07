@@ -28,14 +28,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { PropType, ref } from 'vue';
 import { Register } from './../abacus/program';
 
-const props = defineProps<{
-    title: string
-    registers: Register[],
-    editable: boolean
-}>()
+const props = defineProps({
+    title: String,
+    registers: {
+        type: Array as PropType<Register[]>,
+        required: true
+    },
+    editable: {
+        type: Boolean,
+        required: false,
+        default(_: any) {
+            return false;
+        }
+    }
+})
 
 const editMode = props.editable ? 'cell' : undefined
 
