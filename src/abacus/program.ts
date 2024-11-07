@@ -65,4 +65,12 @@ export class Program {
         });
     }
 
+    public readdress(): void {
+        let address = this.registers[0].address ? parseInt(this.registers[0].address, 16) : 0;
+        this.registers.forEach(reg => {
+            reg.address = address.toString(16).padStart(3, '0').toUpperCase();
+            address++;
+        });
+    }
+
 }
