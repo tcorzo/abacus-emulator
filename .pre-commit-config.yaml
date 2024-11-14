@@ -35,3 +35,6 @@ repos:
     hooks:
       - id: prettier
         types: [yaml]
+
+ci:
+  autoupdate_branch: "develop"

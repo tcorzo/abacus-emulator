@@ -17,7 +17,7 @@ const registers = computed(() => {
 </script>
 
 <template>
-    <RegisterTable :editable="false" :title="'Data'" :registers="registers" />
+    <RegisterTable :title="'Data'" :registers="registers" />
 </template>
 
 <style scoped>
